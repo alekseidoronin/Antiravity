@@ -1,0 +1,7 @@
+[Unit]
+Description=n8n Backup Service
+
+[Service]
+Type=oneshot
+ExecStart=/home/debian/n8n/backup-n8n.sh
+User=debian

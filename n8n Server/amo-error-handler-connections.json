@@ -1,0 +1,7 @@
+{
+  "Error Trigger": { "main": [[{ "node": "Wait 5 min", "type": "main", "index": 0 }]] },
+  "Wait 5 min": { "main": [[{ "node": "Get Execution", "type": "main", "index": 0 }]] },
+  "Get Execution": { "main": [[{ "node": "Extract webhook body", "type": "main", "index": 0 }]] },
+  "Extract webhook body": { "main": [[{ "node": "Has body?", "type": "main", "index": 0 }]] },
+  "Has body?": { "main": [[{ "node": "Re-post webhook", "type": "main", "index": 0 }], []] }
+}

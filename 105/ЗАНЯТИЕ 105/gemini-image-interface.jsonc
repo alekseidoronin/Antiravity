@@ -1,0 +1,12 @@
+[
+  {
+    "name": "image",
+    "type": "file",
+    "label": "🖼️ Image"
+  },
+  {
+    "name": "imageUrl",
+    "type": "url",
+    "label": "🌐 Image URL"
+  }
+]

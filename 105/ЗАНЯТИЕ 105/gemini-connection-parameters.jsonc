@@ -1,0 +1,16 @@
+[
+  {
+    "name": "API_KEY",
+    "type": "text",
+    "label": "🔑 Gemini API Key",
+    "required": true,
+    "help": "Google AI Studio: https://aistudio.google.com/app/apikey"
+  },
+  {
+    "name": "IMGBB_API_KEY",
+    "type": "text",
+    "label": "🔑 ImgBB API Key",
+    "required": true,
+    "help": "https://api.imgbb.com/"
+  }
+]

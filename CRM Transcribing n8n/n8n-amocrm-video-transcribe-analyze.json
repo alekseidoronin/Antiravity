@@ -1,0 +1,246 @@
+{
+  "name": "amoCRM: видео → транскрипция и анализ",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "amocrm-video",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook amoCRM",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "amocrm-video-analyzer"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Парсим тело вебхука amoCRM (событие attachment_note_added)\n// Документация: https://www.amocrm.ru/developers/content/crm_platform/webhooks-api\nconst body = $input.first().json.body || $input.first().json;\n\nlet entityType = body.entity_type || 'lead';\nlet entityId = body.entity_id;\nlet noteId = null;\nlet fileUuid = null;\n\n// Из события value_after содержит note.id\nif (body.value_after && Array.isArray(body.value_after) && body.value_after[0]) {\n  noteId = body.value_after[0].note?.id;\n}\n\n// Иногда file_uuid уже в теле (зависит от настроек вебхука)\nif (body.params?.file_uuid) {\n  fileUuid = body.params.file_uuid;\n}\n\nif (!entityId || !noteId) {\n  throw new Error('Нет entity_id или note_id в теле вебхука. Проверьте настройки вебхука amoCRM.');\n}\n\nreturn [{ json: { entityType, entityId, noteId, fileUuid } }];"
+      },
+      "id": "parse-webhook",
+      "name": "Парсинг вебхука",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://{{ $env.AMOCRM_SUBDOMAIN || 'your-subdomain' }}.amocrm.ru/api/v4/leads/{{ $('Парсинг вебхука').first().json.entityId }}/notes/{{ $('Парсинг вебхука').first().json.noteId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "get-note",
+      "name": "Получить примечание (note)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 300],
+      "credentials": {
+        "httpHeaderAuth": { "id": "AMOCRM_OAUTH", "name": "amoCRM OAuth" }
+      },
+      "notes": "Нужен Header: Authorization = Bearer <access_token>. Токен — OAuth2 amoCRM (см. README)."
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://drive-b.{{ $env.AMOCRM_SUBDOMAIN || 'your-subdomain' }}.amocrm.ru/v1.0/files/{{ $json.params?.file_uuid }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "get-file-info",
+      "name": "Получить инфо о файле (Files API)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [900, 300],
+      "credentials": {
+        "httpHeaderAuth": { "id": "AMOCRM_OAUTH", "name": "amoCRM OAuth" }
+      },
+      "notes": "Требуется scope 'Доступ к файлам'. Ответ: _embedded.files[0]._links.download.href"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "download-url",
+              "name": "downloadUrl",
+              "value": "={{ $json._embedded?.files?.[0]?._links?.download?.href || $json._links?.download?.href }}",
+              "type": "string"
+            },
+            {
+              "id": "entity-id",
+              "name": "entityId",
+              "value": "={{ $('Парсинг вебхука').first().json.entityId }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-download-url",
+      "name": "Ссылка на скачивание",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.downloadUrl }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "download-file",
+      "name": "Скачать файл (видео/аудио)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1340, 300],
+      "notes": "Для drive amoCRM может потребоваться тот же Authorization header (OAuth). Если 401 — добавьте заголовок вручную."
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "binaryPropertyName": "data",
+        "options": {
+          "language": "ru"
+        }
+      },
+      "id": "openai-transcribe",
+      "name": "Транскрипция (OpenAI Whisper)",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.2,
+      "position": [1560, 300],
+      "credentials": {
+        "openAiApi": { "id": "OPENAI_API", "name": "OpenAI API" }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "messages": {
+          "values": [
+            {
+              "content": "=Ты — эксперт по аудиту продаж (SPIN, Sandler). Проанализируй транскрипцию звонка.\n\nПравила:\n- Определи роли: Менеджер vs Клиент.\n- Оцени этап: холодный звонок, квалификация, презентация, дожим.\n- Проверь структуру: приветствие → потребности → презентация → возражения → следующий шаг.\n- Укажи ошибки и дай конкретные советы.\n\nТранскрипция:\n{{ $json.text }}"
+            }
+          ]
+        },
+        "options": {
+          "responseFormat": {
+            "type": "json_schema",
+            "jsonSchema": {
+              "name": "call_analysis",
+              "strict": true,
+              "schema": "{\"type\":\"object\",\"properties\":{\"summary\":{\"type\":\"string\",\"description\":\"Краткое саммари (2 предложения)\"},\"manager_score\":{\"type\":\"string\",\"description\":\"Оценка 0-100\"},\"outcome\":{\"type\":\"string\",\"description\":\"Успех/Отказ/Думает\"},\"good_points\":{\"type\":\"string\"},\"next_step\":{\"type\":\"string\"},\"advice\":{\"type\":\"string\"}},\"required\":[\"summary\",\"manager_score\",\"outcome\",\"good_points\",\"next_step\",\"advice\"]}"
+            }
+          }
+        }
+      },
+      "id": "openai-analyze",
+      "name": "Анализ звонка (GPT)",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.2,
+      "position": [1780, 300],
+      "credentials": {
+        "openAiApi": { "id": "OPENAI_API", "name": "OpenAI API" }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "note-text",
+              "name": "noteText",
+              "value": "=📞 Разбор звонка\n\n📝 Кратко: {{ $json.summary }}\n\n📊 Оценка: {{ $json.manager_score }}/100\nВердикт: {{ $json.outcome }}\n\n👍 Плюсы: {{ $json.good_points }}\n\n⚠️ Следующий шаг: {{ $json.next_step }}\n\n✅ Совет: {{ $json.advice }}",
+              "type": "string"
+            },
+            {
+              "id": "entity-id-note",
+              "name": "entityId",
+              "value": "={{ $('Ссылка на скачивание').first().json.entityId }}",
+              "type": "number"
+            }
+          ]
+        }
+      },
+      "id": "format-note",
+      "name": "Форматировать примечание",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [2000, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://{{ $env.AMOCRM_SUBDOMAIN || 'your-subdomain' }}.amocrm.ru/api/v4/leads/notes",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify([{ entity_id: $json.entityId, note_type: 'common', params: { text: $json.noteText } }]) }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "add-note-amocrm",
+      "name": "Добавить примечание в сделку",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2220, 300],
+      "credentials": {
+        "httpHeaderAuth": { "id": "AMOCRM_OAUTH", "name": "amoCRM OAuth" }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"ok\": true, \"message\": \"Обработка запущена\", \"lead_id\": $('Парсинг вебхука').first().json.entityId } }}"
+      },
+      "id": "respond-webhook",
+      "name": "Ответ вебхуку",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [2440, 300]
+    },
+    {
+      "parameters": {
+        "content": "## Настройка\n\n1. **Переменные окружения**: задайте `AMOCRM_SUBDOMAIN` (например, `alexneurosolutions`).\n\n2. **Credential amoCRM**: создайте HTTP Header Auth:\n   - Name: `Authorization`\n   - Value: `Bearer <access_token>`\n   Токен получается через OAuth2 amoCRM (см. README).\n\n3. **Credential OpenAI**: укажите API Key для транскрипции и анализа.\n\n4. **Вебхук amoCRM**: в интеграции amoCRM укажите URL этого workflow (Production) и подпишитесь на событие **attachment_note_added** (добавлен файл к сделке)."
+      },
+      "id": "sticky-note",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [200, 80]
+    }
+  ],
+  "connections": {
+    "Webhook amoCRM": { "main": [[{ "node": "Парсинг вебхука", "type": "main", "index": 0 }]] },
+    "Парсинг вебхука": { "main": [[{ "node": "Получить примечание (note)", "type": "main", "index": 0 }]] },
+    "Получить примечание (note)": { "main": [[{ "node": "Получить инфо о файле (Files API)", "type": "main", "index": 0 }]] },
+    "Получить инфо о файле (Files API)": { "main": [[{ "node": "Ссылка на скачивание", "type": "main", "index": 0 }]] },
+    "Ссылка на скачивание": { "main": [[{ "node": "Скачать файл (видео/аудио)", "type": "main", "index": 0 }]] },
+    "Скачать файл (видео/аудио)": { "main": [[{ "node": "Транскрипция (OpenAI Whisper)", "type": "main", "index": 0 }]] },
+    "Транскрипция (OpenAI Whisper)": { "main": [[{ "node": "Анализ звонка (GPT)", "type": "main", "index": 0 }]] },
+    "Анализ звонка (GPT)": { "main": [[{ "node": "Форматировать примечание", "type": "main", "index": 0 }]] },
+    "Форматировать примечание": { "main": [[{ "node": "Добавить примечание в сделку", "type": "main", "index": 0 }]] },
+    "Добавить примечание в сделку": { "main": [[{ "node": "Ответ вебхуку", "type": "main", "index": 0 }]] }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "meta": {
+    "templateCredsSetupCompleted": false
+  }
+}

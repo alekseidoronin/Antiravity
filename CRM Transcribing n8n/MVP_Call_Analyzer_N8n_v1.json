@@ -1,0 +1,245 @@
+{
+  "name": "MVP Call Analyzer v1 (старый)",
+  "nodes": [
+    {
+      "parameters": { "httpMethod": "POST", "path": "amocrm-call", "responseMode": "responseNode", "options": {} },
+      "id": "webhook-trigger",
+      "name": "Webhook amocrm",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 300],
+      "webhookId": "amocrm-call-analyzer"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "loose" },
+          "conditions": [
+            {
+              "id": "has-attachment",
+              "leftValue": "={{ $json.body?.leads?.note?.[0]?.note?.attachment ?? $json.body?.leads?.note?.[0]?.note?.attachement ?? '' }}",
+              "rightValue": "",
+              "operator": { "type": "string", "operation": "notEmpty" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if-attachment",
+      "name": "Есть вложение?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [220, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://{{ $json.body?.account?.subdomain || 'alexneurosolutions' }}.amocrm.ru/api/v4/leads/{{ $json.body?.leads?.note?.[0]?.note?.element_id }}/links",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "options": {}
+      },
+      "id": "amocrm-links",
+      "name": "HTTP: Получить links",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [440, 200]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://drive-b.amocrm.ru/v1.0/files/{{ $json._embedded?.notes?.[0]?.params?.file_uuid || $json.data?._embedded?.notes?.[0]?.params?.file_uuid }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "options": {}
+      },
+      "id": "amocrm-drive",
+      "name": "HTTP: Файл с drive",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [660, 200]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "file-link", "name": "file_link", "value": "={{ $json.url || $json.data?.url || $json.download_link || $json.link || $json.href }}", "type": "string" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-file-link",
+      "name": "Сохранить file_link",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [880, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.assemblyai.com/v2/transcript",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"audio_url\": \"{{ $json.file_link }}\",\n  \"language_code\": \"ru\",\n  \"speaker_labels\": true\n}",
+        "options": {}
+      },
+      "id": "assemblyai-submit",
+      "name": "AssemblyAI: Отправить на транскрипцию",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1100, 200]
+    },
+    {
+      "parameters": { "resume": "timeInterval", "amount": 20, "unit": "seconds" },
+      "id": "wait-transcript",
+      "name": "Подождать транскрипцию",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [1280, 200]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.assemblyai.com/v2/transcript/{{ $('AssemblyAI: Отправить на транскрипцию').item.json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "assemblyai-get",
+      "name": "AssemblyAI: Получить транскрипт",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1460, 200]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "transcript-text",
+              "name": "transcript_text",
+              "value": "={{ $json.text || ($json.utterances || []).map(u => (u.speaker || '') + ': ' + (u.text || '')).join('\\n') || '' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-transcript",
+      "name": "Подготовить текст",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [1640, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=YOUR_GEMINI_API_KEY",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { contents: [{ parts: [{ text: `Ты — Эксперт по аудиту продаж. Проанализируй транскрипцию и верни ТОЛЬКО валидный JSON без markdown с полями: manager_name, client_intent, summary, manager_score (0-100), outcome, good_points, bad_points, advice, next_step.\\n\\nТранскрипция:\\n${String($json.transcript_text || '')}` }] }], generationConfig: { temperature: 0.3, maxOutputTokens: 2048, responseMimeType: 'application/json' } } }}",
+        "options": {}
+      },
+      "id": "gemini-http",
+      "name": "Gemini: Анализ звонка",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1820, 200]
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $input.first().json.candidates?.[0]?.content?.parts?.[0]?.text || '{}';\nlet parsed = {};\ntry {\n  parsed = typeof text === 'string' ? JSON.parse(text.replace(/```json\\n?|```/g, '').trim()) : text;\n} catch (e) {\n  parsed = { error: 'Parse error', raw: text };\n}\nreturn { json: { ...parsed } };"
+      },
+      "id": "parse-gemini",
+      "name": "Распарсить JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2000, 200]
+    },
+    {
+      "parameters": {
+        "chatId": "-5203327157",
+        "text": "=📞 *Разбор звонка*\nФайл: {{ $('Сохранить file_link').item.json.file_link?.split('/').pop() || 'N/A' }}\n\n📝 *Кратко:* {{ $json.summary }}\n\n📊 Оценка: {{ $json.manager_score }}/100\n\n*Вердикт*: {{ $json.outcome }}\n\n👍 *Что сделано круто:* {{ $json.good_points }}\n\n⚠️ *Зоны роста:* {{ $json.next_step }}\n\n✅ *Совет:* {{ $json.advice }}\n\n🔗 *Ссылка на запись* {{ $('Сохранить file_link').item.json.file_link }}",
+        "additionalFields": { "parse_mode": "Markdown" }
+      },
+      "id": "telegram-send",
+      "name": "Telegram: Отправить менеджеру",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [2180, 100]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": { "__rl": true, "value": "1Ej6UtCg9vpuxS1GD0s8LnP9SGjQqV_0F", "mode": "id" },
+        "sheetName": { "__rl": true, "value": "Report", "mode": "name" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Дата": "={{ $now.format('DD.MM.YYYY HH:mm') }}",
+            "Менеджер": "={{ $json.manager_name }}",
+            "Файл": "={{ $('Сохранить file_link').item.json.file_link?.split('/').pop() || '' }}",
+            "Оценка": "={{ $json.manager_score }}",
+            "Намерение клиента": "={{ $json.client_intent }}",
+            "Вердикт": "={{ $json.outcome }}",
+            "След. шаг": "={{ $json.next_step }}",
+            "Саммари": "={{ $json.summary }}",
+            "Плюсы": "={{ $json.good_points }}",
+            "Минусы": "={{ $json.bad_points }}",
+            "Совет": "={{ $json.advice }}",
+            "Ссылка": "={{ $('Сохранить file_link').item.json.file_link }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "google-sheets",
+      "name": "Google Sheets: Отчёт",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [2180, 300]
+    },
+    {
+      "parameters": { "mode": "combine", "combineBy": "combineByPosition", "options": {} },
+      "id": "merge-branches",
+      "name": "Объединить",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [2360, 200]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"status\": \"ok\", \"message\": \"Call analyzed\" } }}"
+      },
+      "id": "respond-webhook",
+      "name": "Ответить на Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [2540, 200]
+    }
+  ],
+  "connections": {
+    "Webhook amocrm": { "main": [[{ "node": "Есть вложение?", "type": "main", "index": 0 }]] },
+    "Есть вложение?": { "main": [[{ "node": "HTTP: Получить links", "type": "main", "index": 0 }], [{ "node": "Ответить на Webhook", "type": "main", "index": 0 }]] },
+    "HTTP: Получить links": { "main": [[{ "node": "HTTP: Файл с drive", "type": "main", "index": 0 }]] },
+    "HTTP: Файл с drive": { "main": [[{ "node": "Сохранить file_link", "type": "main", "index": 0 }]] },
+    "Сохранить file_link": { "main": [[{ "node": "AssemblyAI: Отправить на транскрипцию", "type": "main", "index": 0 }]] },
+    "AssemblyAI: Отправить на транскрипцию": { "main": [[{ "node": "Подождать транскрипцию", "type": "main", "index": 0 }]] },
+    "Подождать транскрипцию": { "main": [[{ "node": "AssemblyAI: Получить транскрипт", "type": "main", "index": 0 }]] },
+    "AssemblyAI: Получить транскрипт": { "main": [[{ "node": "Подготовить текст", "type": "main", "index": 0 }]] },
+    "Подготовить текст": { "main": [[{ "node": "Gemini: Анализ звонка", "type": "main", "index": 0 }]] },
+    "Gemini: Анализ звонка": { "main": [[{ "node": "Распарсить JSON", "type": "main", "index": 0 }]] },
+    "Распарсить JSON": { "main": [[{ "node": "Telegram: Отправить менеджеру", "type": "main", "index": 0 }, { "node": "Google Sheets: Отчёт", "type": "main", "index": 0 }]] },
+    "Telegram: Отправить менеджеру": { "main": [[{ "node": "Объединить", "type": "main", "index": 0 }]] },
+    "Google Sheets: Отчёт": { "main": [[{ "node": "Объединить", "type": "main", "index": 1 }]] },
+    "Объединить": { "main": [[{ "node": "Ответить на Webhook", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" },
+  "staticData": null,
+  "meta": { "templateCredsSetupCompleted": false },
+  "pinData": {},
+  "tags": []
+}

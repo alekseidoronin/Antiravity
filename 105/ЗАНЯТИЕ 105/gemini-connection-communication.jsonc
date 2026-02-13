@@ -1,0 +1,26 @@
+[
+  {
+    "url": "https://generativelanguage.googleapis.com/v1beta/models",
+    "method": "GET",
+    "headers": {
+      "x-goog-api-key": "{{parameters.API_KEY}}"
+    },
+    "response": {
+      "uid": "{{parameters.API_KEY}}",
+      "metadata": {
+        "type": "text",
+        "value": "Google Gemini API"
+      },
+      "data": {
+        "apiKey": "{{parameters.API_KEY}}"
+      },
+      "error": {
+        "type": "ConnectionError",
+        "message": "[{{statusCode}}] {{body.error.message || 'Проверьте API ключ'}}"
+      }
+    },
+    "log": {
+      "sanitize": ["request.headers.x-goog-api-key"]
+    }
+  }
+]

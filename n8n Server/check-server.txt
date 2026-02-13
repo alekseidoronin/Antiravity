@@ -1,0 +1,39 @@
+# Скопируйте блок ниже целиком, вставьте в терминал на сервере, нажмите Enter.
+# Затем скопируйте весь вывод и пришлите сюда.
+
+echo "========== СИСТЕМА =========="
+uname -a
+cat /etc/os-release | head -6
+
+echo ""
+echo "========== ДИСК (сколько места) =========="
+df -h
+
+echo ""
+echo "========== ПАМЯТЬ RAM =========="
+free -h
+
+echo ""
+echo "========== ПРОЦЕССОР =========="
+nproc
+grep "model name" /proc/cpuinfo | head -1
+
+echo ""
+echo "========== DOCKER И КОНТЕЙНЕРЫ =========="
+docker --version 2>/dev/null || echo "Docker не установлен"
+docker ps -a 2>/dev/null || true
+
+echo ""
+echo "========== ЗАНЯТЫЕ ПОРТЫ =========="
+ss -tlnp 2>/dev/null || netstat -tlnp 2>/dev/null
+
+echo ""
+echo "========== СЛУЖБЫ (что запущено) =========="
+systemctl list-units --type=service --state=running --no-pager 2>/dev/null | head -30
+
+echo ""
+echo "========== N8N (если есть) =========="
+which n8n 2>/dev/null; systemctl status n8n 2>/dev/null | head -5; docker ps 2>/dev/null | grep -i n8n || true
+
+echo ""
+echo "========== КОНЕЦ =========="

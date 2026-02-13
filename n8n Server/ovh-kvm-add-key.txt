@@ -1,0 +1,8 @@
+# Run this ONCE in OVH KVM (web console) after logging in with your password.
+# Copy the line below (from mkdir to the end), paste in KVM, press Enter.
+#
+# If you're logged in as root in KVM:
+mkdir -p /home/debian/.ssh && echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPxwtYdkgwYjyQYLbu7sV7j1b/K4BUXWg9iKYqcTT5F5 alekseidoronin@mac-vps' >> /home/debian/.ssh/authorized_keys && chmod 700 /home/debian/.ssh && chmod 600 /home/debian/.ssh/authorized_keys && chown -R debian:debian /home/debian/.ssh && echo Done. You can close KVM.
+#
+# If you're logged in as debian in KVM:
+# mkdir -p ~/.ssh && echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPxwtYdkgwYjyQYLbu7sV7j1b/K4BUXWg9iKYqcTT5F5 alekseidoronin@mac-vps' >> ~/.ssh/authorized_keys && chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys && echo Done. You can close KVM.

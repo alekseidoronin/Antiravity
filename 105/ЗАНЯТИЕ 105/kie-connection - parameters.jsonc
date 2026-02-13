@@ -1,0 +1,28 @@
+[
+  {
+    "name": "API_KEY",
+    "type": "text",
+    "label": "🔑 API Key",
+    "required": true,
+    "help": "Получите ваш API ключ на https://kie.ai/api-key"
+  }
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,77 @@
+[
+  {
+    "name": "model",
+    "type": "select",
+    "label": "🎬 Модель",
+    "required": true,
+    "default": "sora-2-text-to-video",
+    "options": [
+      {
+        "label": "Text to Video (текст → видео)",
+        "value": "sora-2-text-to-video"
+      },
+      {
+        "label": "Image to Video (изображение → видео)",
+        "value": "sora-2-image-to-video"
+      }
+    ],
+    "help": "Выберите режим генерации видео"
+  },
+  {
+    "name": "prompt",
+    "type": "text",
+    "label": "📝 Описание видео",
+    "required": true,
+    "maxLength": 5000,
+    "help": "Подробное описание того, что должно происходить в видео"
+  },
+  {
+    "name": "image_urls",
+    "type": "array",
+    "label": "🖼️ URL изображения (для Image-to-Video)",
+    "required": false,
+    "spec": {
+      "type": "url",
+      "label": "URL изображения"
+    },
+    "validate": {
+      "maxItems": 1
+    },
+    "help": "Публично доступная ссылка на изображение (макс. 10MB, форматы: JPEG, PNG, WEBP). Обязательно для режима Image-to-Video"
+  },
+  {
+    "name": "aspect_ratio",
+    "type": "select",
+    "label": "📐 Соотношение сторон",
+    "required": false,
+    "default": "landscape",
+    "options": [
+      {
+        "label": "Альбомная (Landscape)",
+        "value": "landscape"
+      },
+      {
+        "label": "Портретная (Portrait)",
+        "value": "portrait"
+      }
+    ]
+  },
+  {
+    "name": "quality",
+    "type": "select",
+    "label": "⚡ Качество",
+    "required": false,
+    "default": "standard",
+    "options": [
+      {
+        "label": "Стандартное (Standard)",
+        "value": "standard"
+      },
+      {
+        "label": "Высокое (HD)",
+        "value": "hd"
+      }
+    ]
+  }
+]
+

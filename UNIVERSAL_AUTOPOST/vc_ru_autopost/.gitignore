@@ -1,0 +1,5 @@
+.env
+*_storage_state.json
+autopost_debug.log
+*.png
+__pycache__/

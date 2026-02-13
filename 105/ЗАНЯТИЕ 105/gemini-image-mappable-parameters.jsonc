@@ -1,0 +1,64 @@
+[
+  {
+    "name": "model",
+    "type": "select",
+    "label": "🤖 Model",
+    "required": true,
+    "default": "gemini-2.5-flash-image",
+    "options": [
+      { "label": "gemini-2.5-flash-image", "value": "gemini-2.5-flash-image" },
+      { "label": "gemini-3-pro-image-preview", "value": "gemini-3-pro-image-preview" }
+    ]
+  },
+  {
+    "name": "prompt",
+    "type": "text",
+    "label": "📝 Prompt",
+    "required": true,
+    "maxLength": 8000
+  },
+  {
+    "name": "aspectRatio",
+    "type": "select",
+    "label": "📐 Aspect Ratio",
+    "required": false,
+    "default": "16:9",
+    "options": [
+      { "label": "1:1", "value": "1:1" },
+      { "label": "16:9", "value": "16:9" },
+      { "label": "9:16", "value": "9:16" },
+      { "label": "4:3", "value": "4:3" },
+      { "label": "3:4", "value": "3:4" },
+      { "label": "3:2", "value": "3:2" },
+      { "label": "2:3", "value": "2:3" },
+      { "label": "5:4", "value": "5:4" },
+      { "label": "4:5", "value": "4:5" },
+      { "label": "21:9", "value": "21:9" }
+    ]
+  },
+  {
+    "name": "imageSize",
+    "type": "select",
+    "label": "🖼️ Image Size (gemini-3-pro only)",
+    "required": false,
+    "options": [
+      { "label": "1K", "value": "1K" },
+      { "label": "2K", "value": "2K" },
+      { "label": "4K", "value": "4K" }
+    ]
+  },
+  {
+    "name": "referenceImage",
+    "type": "file",
+    "label": "🖼️ Референс (фото)",
+    "required": false,
+    "help": "Опционально. Фото человека/объекта для генерации в его образе."
+  },
+  {
+    "name": "referenceImageBase64",
+    "type": "text",
+    "label": "🖼️ Референс Base64",
+    "required": false,
+    "help": "Референс из другого модуля как Base64."
+  }
+]

@@ -1,0 +1,109 @@
+[
+  {
+    "url": "https://generativelanguage.googleapis.com/v1beta/models/{{parameters.model}}:generateContent",
+    "method": "POST",
+    "headers": {
+      "x-goog-api-key": "{{connection.API_KEY}}",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "contents": [
+        {
+          "parts": [
+            { "text": "{{parameters.prompt}}" },
+            {
+              "inline_data": {
+                "mime_type": "{{ifempty(parameters.referenceImage.mimeType, 'image/jpeg')}}",
+                "data": "{{ifempty(parameters.referenceImage.data, parameters.referenceImageBase64)}}"
+              }
+            }
+          ]
+        }
+      ],
+      "generationConfig": {
+        "responseModalities": ["IMAGE"],
+        "imageConfig": {
+          "aspectRatio": "{{ifempty(parameters.aspectRatio, '16:9')}}",
+          "imageSize": "{{if(parameters.model == 'gemini-3-pro-image-preview', ifempty(parameters.imageSize, '2K'), omit)}}"
+        }
+      }
+    },
+    "condition": "{{(parameters.referenceImage != null && parameters.referenceImage.data != null && parameters.referenceImage.data != '') || (parameters.referenceImageBase64 != null && parameters.referenceImageBase64 != '')}}",
+    "response": {
+      "temp": {
+        "base64Image": "{{ifempty(ifempty(body.candidates[1].content.parts[1].inlineData.data, body.candidates[1].content.parts[2].inlineData.data), ifempty(body.candidates[0].content.parts[0].inlineData.data, body.candidates[0].content.parts[1].inlineData.data))}}"
+      },
+      "output": null,
+      "error": {
+        "type": "DataError",
+        "message": "[{{statusCode}}] {{body.error.message || body.promptFeedback.blockReasonMessage || 'Ошибка генерации'}}"
+      }
+    },
+    "log": { "sanitize": ["request.headers.x-goog-api-key"] }
+  },
+  {
+    "url": "https://generativelanguage.googleapis.com/v1beta/models/{{parameters.model}}:generateContent",
+    "method": "POST",
+    "headers": {
+      "x-goog-api-key": "{{connection.API_KEY}}",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "contents": [
+        {
+          "parts": [
+            { "text": "{{parameters.prompt}}" }
+          ]
+        }
+      ],
+      "generationConfig": {
+        "responseModalities": ["IMAGE"],
+        "imageConfig": {
+          "aspectRatio": "{{ifempty(parameters.aspectRatio, '16:9')}}",
+          "imageSize": "{{if(parameters.model == 'gemini-3-pro-image-preview', ifempty(parameters.imageSize, '2K'), omit)}}"
+        }
+      }
+    },
+    "condition": "{{parameters.referenceImage == null && (parameters.referenceImageBase64 == null || parameters.referenceImageBase64 == '')}}",
+    "response": {
+      "temp": {
+        "base64Image": "{{ifempty(ifempty(body.candidates[1].content.parts[1].inlineData.data, body.candidates[1].content.parts[2].inlineData.data), ifempty(body.candidates[0].content.parts[0].inlineData.data, body.candidates[0].content.parts[1].inlineData.data))}}"
+      },
+      "output": null,
+      "error": {
+        "type": "DataError",
+        "message": "[{{statusCode}}] {{body.error.message || body.promptFeedback.blockReasonMessage || 'Ошибка генерации'}}"
+      }
+    },
+    "log": { "sanitize": ["request.headers.x-goog-api-key"] }
+  },
+  {
+    "url": "https://api.imgbb.com/1/upload?key={{connection.IMGBB_API_KEY}}",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    "body": "image={{temp.base64Image}}&name=gemini-image",
+    "response": {
+      "temp": {
+        "imageUrl": "{{body.data.url}}"
+      },
+      "output": null,
+      "error": {
+        "type": "DataError",
+        "message": "[{{statusCode}}] ImgBB: {{body.error.message || 'Проверьте ImgBB ключ в Connection'}}"
+      }
+    },
+    "log": { "sanitize": ["request.url"] }
+  },
+  {
+    "url": "{{temp.imageUrl}}",
+    "method": "GET",
+    "response": {
+      "output": {
+        "image": "{{body}}",
+        "imageUrl": "{{temp.imageUrl}}"
+      }
+    }
+  }
+]

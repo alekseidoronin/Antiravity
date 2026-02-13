@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контент Конвейер CalmOpsAi — Автоматизация SEO и Соцсетей</title>
+    <!-- Подключение FontAwesome 6 для всех иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- CORE VARIABLES & BACKGROUND --- */
+        html { scroll-behavior: smooth; }
+        
+        #calmopsai-root {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            color: #ffffff;
+            background: linear-gradient(90deg, #56007a 0%, #00767c 100%);
+            background-color: #56007a;
+            line-height: 1.5;
+            overflow-x: clip; 
+            position: relative;
+            width: 100%;
+            
+            --c-primary: #0cebeb; 
+            --c-secondary: #b829ff; 
+            --c-glass: rgba(255, 255, 255, 0.05);
+            --c-glass-border: rgba(255, 255, 255, 0.1);
+            --c-glass-strong: rgba(20, 24, 34, 0.85);
+            --glow: 0 0 25px rgba(12, 235, 235, 0.4);
+            --text-gray: #d1d5db;
+            --gold: #fbbf24;
+        }
+        
+        #calmopsai-root * { box-sizing: border-box; }
+
+        /* Reset Tilda / external styles inside embed */
+        #calmopsai-root a,
+        #calmopsai-root a:visited {
+            color: inherit;
+            text-decoration: none;
+            text-transform: none;
+        }
+
+        .calmopsai-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* --- NAV --- */
+        #calmopsai-root nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 9999; 
+            background: rgba(13, 17, 23, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--c-glass-border);
+        }
+        
+        #calmopsai-root .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        #calmopsai-root .nav-links { display: flex; gap: 24px; align-items: center; }
+        #calmopsai-root .nav-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            text-transform: none !important;
+        }
+        #calmopsai-root .nav-links a:hover { color: var(--c-primary); }
+
+        #calmopsai-root .btn-nav {
+            display: inline-flex; padding: 10px 24px; 
+            background: linear-gradient(90deg, var(--c-secondary), var(--c-primary)); 
+            color: #fff !important; font-weight: 700; font-size: 13px; border-radius: 50px; 
+            text-decoration: none; transition: 0.3s; box-shadow: var(--glow);
+        }
+
+        /* --- HERO --- */
+        .calmopsai-hero {
+            padding: 180px 0 100px;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        .calmopsai-hero-inner { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 40px; }
+        .calmopsai-hero-text { flex: 0 0 50%; z-index: 10; }
+        .calmopsai-hero-visual { flex: 0 0 50%; position: relative; height: 600px; display: flex; align-items: center; justify-content: center; }
+
+        .calmopsai-hero h1 { font-size: 58px; font-weight: 900; margin-bottom: 24px; line-height: 1.1; }
+        .calmopsai-hero h1 span { text-shadow: 0 0 25px rgba(12, 235, 235, 0.7); color: var(--c-primary); }
+        .calmopsai-hero p { font-size: 18px; color: #fff; margin-bottom: 40px; line-height: 1.6; background: rgba(0,0,0,0.3); backdrop-filter: blur(15px); padding: 25px; border-radius: 16px; }
+
+        /* --- 3D REACTOR (ROCK-SOLID SVG LOGOS) --- */
+        .calmopsai-reactor {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 700px; height: 700px; perspective: 1500px;
+        }
+        .reactor-tilt-wrapper { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: 0.1s; }
+        
+        .calmopsai-core {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 180px; height: 180px; border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #ffffff 0%, var(--c-primary) 30%, #060913 80%);
+            box-shadow: 0 0 80px rgba(12, 235, 235, 0.4);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+            z-index: 10; animation: core-float 4s infinite ease-in-out;
+        }
+        @keyframes core-float { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -53%) scale(1.05); } }
+
+        .calmopsai-orbit { 
+            position: absolute; top: 50%; left: 50%; border-radius: 50%; 
+            transform-style: preserve-3d; border: 1px solid rgba(255,255,255,0.08); 
+        }
+        
+        /* Orbit Speeds */
+        .orbit-1 { width: 320px; height: 320px; animation: rotate-orbit 15s linear infinite; }
+        .orbit-2 { width: 480px; height: 480px; animation: rotate-orbit 25s linear infinite reverse; border-style: dashed; }
+        .orbit-3 { width: 650px; height: 650px; animation: rotate-orbit 40s linear infinite; }
+
+        @keyframes rotate-orbit { 
+            from { transform: translate(-50%, -50%) rotateX(65deg) rotateZ(0); } 
+            to { transform: translate(-50%, -50%) rotateX(65deg) rotateZ(360deg); } 
+        }
+
+        .calmopsai-planet {
+            position: absolute; width: 46px; height: 46px; background: #0d1117; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; border: 1px solid var(--p-color);
+            box-shadow: 0 0 15px var(--p-color); font-size: 20px;
+            animation: counter-rotate 15s linear infinite;
+        }
+        .orbit-1 .calmopsai-planet { animation-duration: 15s; }
+        .orbit-2 .calmopsai-planet { animation-duration: 25s; animation-direction: reverse; }
+        .orbit-3 .calmopsai-planet { animation-duration: 40s; }
+
+        @keyframes counter-rotate { 
+            from { transform: translate(-50%, -50%) rotateZ(0) rotateX(-65deg); } 
+            to { transform: translate(-50%, -50%) rotateZ(-360deg) rotateX(-65deg); } 
+        }
+
+        /* Specific positions for 10 platforms */
+        .pos-1 { top: 0; left: 50%; } /* WordPress */
+        .pos-2 { top: 75%; left: 93.3%; } /* VK */
+        .pos-3 { top: 75%; left: 6.7%; } /* Telegraph */
+        .pos-4 { top: 15%; left: 15%; } /* Instagram */
+        .pos-5 { top: 15%; left: 85%; } /* Facebook */
+        .pos-6 { top: 100%; left: 50%; } /* Pinterest */
+        .pos-7 { top: 50%; left: 0%; } /* LinkedIn */
+        .pos-8 { top: 0%; left: 50%; } /* Дзен */
+        .pos-9 { top: 50%; left: 100%; } /* Threads */
+        .pos-10 { top: 100%; left: 50%; } /* OK */
+
+        /* Custom Icon Styles */
+        .telegraph-icon { font-family: 'Georgia', serif; font-weight: bold; font-size: 24px; color: #fff; transform: translateY(-1px); }
+        .dzen-svg { width: 26px; height: 26px; fill: #fff; }
+        .threads-svg { width: 24px; height: 24px; fill: #fff; }
+
+        /* --- BLOCKS --- */
+        .calmopsai-section { padding: 100px 0; }
+        .calmopsai-title { font-size: 48px; font-weight: 800; text-align: center; margin-bottom: 60px; }
+        
+        .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .problem-card { background: rgba(255,255,255,0.03); padding: 40px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
+        .problem-card:hover { transform: translateY(-10px); background: rgba(255,255,255,0.07); border-color: var(--c-primary); }
+        .problem-card h3 { font-size: 24px; margin-bottom: 15px; color: var(--c-primary); }
+        .problem-card .stats { font-size: 32px; font-weight: 800; margin-bottom: 10px; display: block; color: #ff4a4a; }
+
+        /* PIPELINE */
+        .pipeline-container { display: flex; flex-direction: column; gap: 15px; max-width: 900px; margin: 0 auto; }
+        .pipeline-step { 
+            display: flex; align-items: center; gap: 25px; 
+            background: var(--c-glass-strong); padding: 25px; 
+            border-radius: 20px; border-left: 5px solid var(--c-primary);
+            transition: 0.3s;
+        }
+        .pipeline-step:hover { transform: scale(1.02); background: rgba(255,255,255,0.05); }
+        .step-num { font-size: 36px; font-weight: 900; opacity: 0.3; min-width: 60px; }
+        .step-content b { color: var(--c-primary); display: block; margin-bottom: 5px; font-size: 18px; }
+
+        /* PRICING */
+        .pricing-scroll { overflow-x: auto; padding-bottom: 20px; }
+        .pricing-table { 
+            width: 100%; border-collapse: separate; border-spacing: 0; 
+            background: var(--c-glass-strong); border-radius: 30px; overflow: hidden;
+            border: 1px solid var(--c-glass-border);
+        }
+        .pricing-table th, .pricing-table td { padding: 25px; text-align: center; border-bottom: 1px solid var(--c-glass-border); }
+        .pricing-table th { background: rgba(255,255,255,0.05); font-size: 18px; color: var(--c-primary); }
+        .pricing-table td:first-child { text-align: left; font-weight: 600; color: var(--text-gray); width: 250px; }
+        .price-row td { font-size: 28px; font-weight: 900; color: #fff; }
+        .featured-col { background: rgba(184, 41, 255, 0.1); border-left: 1px solid var(--c-secondary); border-right: 1px solid var(--c-secondary); }
+
+        /* FAQ */
+        .faq-item { background: var(--c-glass); margin-bottom: 15px; border-radius: 15px; border: 1px solid var(--c-glass-border); }
+        .faq-item summary { padding: 20px; cursor: pointer; font-weight: 700; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+        .faq-item summary::after { content: '→'; color: var(--c-primary); transition: 0.3s; }
+        .faq-item[open] summary::after { transform: rotate(90deg); }
+        .faq-content { padding: 0 20px 20px; color: var(--text-gray); }
+
+        /* FOOTER */
+        footer { padding: 80px 0 40px; background: rgba(0,0,0,0.4); border-top: 1px solid var(--c-glass-border); }
+        .footer-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 50px; }
+        .footer-contacts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .contact-card { background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; text-decoration: none; color: #fff; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; display: flex; flex-direction: column; gap: 8px; }
+        .contact-card:hover { border-color: var(--c-primary); transform: translateY(-5px); }
+        .c-label { font-size: 11px; text-transform: uppercase; color: var(--text-gray); letter-spacing: 1px; }
+        .tech-stack { margin-top: 40px; display: flex; gap: 20px; opacity: 0.4; font-size: 12px; justify-content: center; font-weight: 600; }
+
+        .tg-fab {
+            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
+            background: #0088cc; color: #fff; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; font-size: 28px; text-decoration: none;
+            box-shadow: 0 10px 25px rgba(0, 136, 204, 0.5); z-index: 10000; transition: 0.3s;
+        }
+
+        .btn-main {
+            display: inline-flex; padding: 16px 40px; background: linear-gradient(90deg, var(--c-secondary), var(--c-primary));
+            color: #fff; text-decoration: none; border-radius: 50px; font-weight: 800; transition: 0.3s;
+            box-shadow: 0 10px 30px rgba(184, 41, 255, 0.4);
+        }
+        .btn-main:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(184, 41, 255, 0.6); }
+
+        @media (max-width: 960px) {
+            .calmopsai-hero { flex-direction: column; text-align: center; padding-top: 120px; }
+            .calmopsai-hero-inner { flex-direction: column; }
+            .calmopsai-hero h1 { font-size: 38px; }
+            .calmopsai-hero-visual { height: 400px; width: 100%; margin-top: 20px; }
+            .calmopsai-reactor { transform: translate(-50%, -50%) scale(0.45); }
+            .problem-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
+            .footer-contacts { grid-template-columns: 1fr; }
+        }
+
+        .fade-up { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+<div id="calmopsai-root">
+    
+    <!-- NAVIGATION -->
+    <nav>
+        <a class="logo" href="https://calmopsai.com/" target="_blank">
+            <i class="fas fa-code-branch fa-spin" style="color: var(--c-primary);"></i> CalmOpsAi
+        </a>
+        <div class="nav-links">
+            <a href="#about">Процесс</a>
+            <a href="#pricing">Тарифы</a>
+            <a href="#faq">FAQ</a>
+            <a href="https://www.neuroalex.site/" target="_blank">Блог</a>
+        </div>
+        <a href="https://t.me/AlexD_GOLD" target="_blank" class="btn-nav">Связаться</a>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="calmopsai-hero">
+        <div class="calmopsai-container calmopsai-hero-inner">
+            <div class="calmopsai-hero-text">
+                <h1 class="fade-up">Контент Конвейер: <br><span>Автопостинг в 10 сетей</span></h1>
+                <p class="fade-up">Ваш персональный ИИ-редактор. Сам подбирает ключи, очищает метаданные фото, пишет глубокие SEO-статьи и публикует их во все соцсети за 1 клик.</p>
+                <div class="fade-up">
+                    <a href="https://t.me/AlexD_GOLD" target="_blank" class="btn-main">Запустить Демо в Telegram</a>
+                </div>
+            </div>
+            
+            <!-- 3D РЕАКТОР: ТОЛЬКО 10 ПЛОЩАДОК -->
+            <div class="calmopsai-hero-visual fade-up">
+                <div class="calmopsai-reactor">
+                    <div class="reactor-tilt-wrapper">
+                        <div class="calmopsai-core">
+                            <span style="font-size: 10px; opacity: 0.7;">ENGINE</span>
+                            <span style="font-weight: 900; font-size: 20px;">AI</span>
+                        </div>
+                        
+                        <!-- Орбита 1: WordPress, ВКонтакте, Telegra.ph -->
+                        <div class="calmopsai-orbit orbit-1">
+                            <div class="calmopsai-planet pos-1" title="WordPress" style="--p-color: #21759b;"><i class="fab fa-wordpress"></i></div>
+                            <div class="calmopsai-planet pos-2" title="ВКонтакте" style="--p-color: #0077FF;"><i class="fab fa-vk"></i></div>
+                            <div class="calmopsai-planet pos-3" title="Telegra.ph" style="--p-color: #ffffff;"><span class="telegraph-icon">T</span></div>
+                        </div>
+                        
+                        <!-- Орбита 2: Instagram, Facebook, Pinterest -->
+                        <div class="calmopsai-orbit orbit-2">
+                            <div class="calmopsai-planet pos-4" title="Instagram" style="--p-color: #E1306C;"><i class="fab fa-instagram"></i></div>
+                            <div class="calmopsai-planet pos-5" title="Facebook" style="--p-color: #1877F2;"><i class="fab fa-facebook-f"></i></div>
+                            <div class="calmopsai-planet pos-6" title="Pinterest" style="--p-color: #E60023;"><i class="fab fa-pinterest-p"></i></div>
+                        </div>
+                        
+                        <!-- Орбита 3: LinkedIn, Дзен, Threads, Одноклассники -->
+                        <div class="calmopsai-orbit orbit-3">
+                            <div class="calmopsai-planet pos-7" title="LinkedIn" style="--p-color: #0a66c2;"><i class="fab fa-linkedin-in"></i></div>
+                            <div class="calmopsai-planet pos-8" title="Дзен" style="--p-color: #ffffff;">
+                                <svg class="dzen-svg" viewBox="0 0 24 24"><path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z"/></svg>
+                            </div>
+                            <div class="calmopsai-planet pos-9" title="Threads" style="--p-color: #ffffff;">
+                                <svg class="threads-svg" viewBox="0 0 24 24">
+                                    <path d="M15.45 10.74c-.39-2.36-2.32-4.04-4.81-4.04-2.88 0-5.11 2.39-5.11 5.3 0 2.91 2.23 5.3 5.11 5.3 1.62 0 2.93-.7 3.86-1.74l-1.34-1.3c-.63.7-1.5 1.14-2.52 1.14-1.8 0-3.32-1.5-3.32-3.4 0-1.9 1.52-3.4 3.32-3.4 1.48 0 2.76.99 3.16 2.37h-3.48v1.86h5.36c.03 2.22-1.55 4.3-4.52 4.3-3.1 0-5.63-2.48-5.63-5.6 0-3.12 2.53-5.6 5.63-5.6 3.16 0 5.46 2.26 5.46 5.3h-1.63z"/>
+                                </svg>
+                            </div>
+                            <div class="calmopsai-planet pos-10" title="Одноклассники" style="--p-color: #F58220;"><i class="fab fa-odnoklassniki"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROBLEMS BLOCK -->
+    <section class="calmopsai-section">
+        <div class="calmopsai-container">
+            <h2 class="calmopsai-title fade-up">Почему вы теряете трафик?</h2>
+            <div class="problem-grid">
+                <div class="problem-card fade-up">
+                    <span class="stats">$2,500+</span>
+                    <h3>Слив бюджета</h3>
+                    <p>Содержание редакции из копирайтеров и менеджеров сжигает маржу. Конвейер работает без отпусков по цене подписки на API.</p>
+                </div>
+                <div class="problem-card fade-up">
+                    <span class="stats">-85% SEO</span>
+                    <h3>Забытый Органик</h3>
+                    <p>Посты в соцсетях не индексируются. Без своего SEO-блога вы теряете вечный поток клиентов из поиска Google и Яндекса.</p>
+                </div>
+                <div class="problem-card fade-up">
+                    <span class="stats">16 часов</span>
+                    <h3>Рутина дистрибуции</h3>
+                    <p>Ручная адаптация лонгрида под 10 площадок занимает 2 рабочих дня. Наш ИИ делает это за 180 секунд без ошибок.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PIPELINE -->
+    <section class="calmopsai-section" id="about">
+        <div class="calmopsai-container">
+            <h2 class="calmopsai-title fade-up">Как работает Ваш Конвейер</h2>
+            <div class="pipeline-container">
+                <div class="pipeline-step fade-up">
+                    <div class="step-num">01</div>
+                    <div class="step-content">
+                        <b>Ключевые слова и Тренды</b>
+                        ИИ анализирует тему и подбирает семантическое ядро для поисковых систем, чтобы статья гарантированно попадала в выдачу.
+                    </div>
+                </div>
+                <div class="pipeline-step fade-up">
+                    <div class="step-num">02</div>
+                    <div class="step-content">
+                        <b>SEO-Заголовок и Сцены</b>
+                        Формируется цепляющий заголовок и прописывается сценарий для визуального оформления.
+                    </div>
+                </div>
+                <div class="pipeline-step fade-up">
+                    <div class="step-num">03</div>
+                    <div class="step-content">
+                        <b>Генерация и Очистка фото</b>
+                        Создаются уникальные обложки и баннеры. Мы полностью удаляем EXIF и мета-данные AI — поисковики видят "авторское фото".
+                    </div>
+                </div>
+                <div class="pipeline-step fade-up">
+                    <div class="step-num">04</div>
+                    <div class="step-content">
+                        <b>Глубокое SEO-написание</b>
+                        Создается экспертный текст с правильной LSI-структурой, списками и акцентами, имитирующий стиль вашего бренда.
+                    </div>
+                </div>
+                <div class="pipeline-step fade-up">
+                    <div class="step-num">05</div>
+                    <div class="step-content">
+                        <b>Автопубликация в 10 сетей</b>
+                        Готовый материал вылетает во все каналы одновременно: от WordPress до Дзена и Threads.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING TABLE -->
+    <section class="calmopsai-section" id="pricing">
+        <div class="calmopsai-container">
+            <h2 class="calmopsai-title fade-up">Сравнение Тарифов</h2>
+            <div class="pricing-scroll fade-up">
+                <table class="pricing-table">
+                    <thead>
+                        <tr>
+                            <th>Параметры</th>
+                            <th>Setup Mini</th>
+                            <th>Setup Plus</th>
+                            <th class="featured-col">PREMIUM</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="price-row">
+                            <td>Стоимость</td>
+                            <td>$1,190</td>
+                            <td>$690</td>
+                            <td class="featured-col">$2,490</td>
+                        </tr>
+                        <tr>
+                            <td>Логика работы</td>
+                            <td>Self-hosted (Ваш n8n)</td>
+                            <td>SaaS (Наша платформа)</td>
+                            <td class="featured-col">Enterprise (Full Code)</td>
+                        </tr>
+                        <tr>
+                            <td>Каналы</td>
+                            <td>5 базовых площадок</td>
+                            <td>8 площадок</td>
+                            <td class="featured-col">Все 10 площадок</td>
+                        </tr>
+                        <tr>
+                            <td>Владение данными</td>
+                            <td>Полностью у вас</td>
+                            <td>У нас в облаке</td>
+                            <td class="featured-col">Ваша собственность</td>
+                        </tr>
+                        <tr>
+                            <td>Оплата API</td>
+                            <td>Вы платите напрямую</td>
+                            <td>Включено в подписку</td>
+                            <td class="featured-col">Включено/Кастом</td>
+                        </tr>
+                        <tr>
+                            <td>Tone of Voice</td>
+                            <td>Базовый</td>
+                            <td>Шаблонный</td>
+                            <td class="featured-col">Персональный под бренд</td>
+                        </tr>
+                        <tr>
+                            <td><b>WordPress SEO Blog</b></td>
+                            <td colspan="3" style="text-align: center;">Создание сайта-блога при его отсутствии: <b>+$1,000 к любому тарифу</b></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><a href="https://t.me/AlexD_GOLD" target="_blank" class="btn-nav" style="text-decoration: none; padding: 10px 20px; background: rgba(255,255,255,0.1); border-radius: 20px; color: #fff;">Выбрать</a></td>
+                            <td><a href="https://t.me/AlexD_GOLD" target="_blank" class="btn-nav" style="text-decoration: none; padding: 10px 20px; background: rgba(255,255,255,0.1); border-radius: 20px; color: #fff;">Выбрать</a></td>
+                            <td class="featured-col"><a href="https://t.me/AlexD_GOLD" target="_blank" class="btn-main">Начать работу</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="calmopsai-section" id="faq">
+        <div class="calmopsai-container" style="max-width: 900px;">
+            <h2 class="calmopsai-title fade-up">Вопросы и ответы</h2>
+            
+            <details class="faq-item fade-up">
+                <summary>Что такое "выпуск" контента?</summary>
+                <div class="faq-content">Это одна глубокая тема, которая автоматически превращается в 10 разных форматов: от статьи на сайте до коротких постов и визуалов в соцсетях.</div>
+            </details>
+
+            <details class="faq-item fade-up">
+                <summary>Нужны ли вам мои логины и пароли?</summary>
+                <div class="faq-content">Для настройки нам потребуется либо ваша помощь в создании API-ключей, либо временный расшаренный доступ к аккаунтам, чтобы автоматизация могла публиковать посты.</div>
+            </details>
+
+            <details class="faq-item fade-up">
+                <summary>Зачем мне WordPress сайт-блог?</summary>
+                <div class="faq-content">Соцсети — это арендованный охват. WordPress — ваша база. SEO-блог генерирует органический трафик из поиска годами, даже если соцсеть заблокируют. Мы создаем такой блог "под ключ" за +$1000.</div>
+            </details>
+
+            <details class="faq-item fade-up">
+                <summary>Как я подаю темы для Конвейера?</summary>
+                <div class="faq-content">Чаще всего используется простая Google Таблица. Вы вписываете тему — Конвейер "забирает" её, подбирает ключи и запускает весь цикл публикации сам.</div>
+            </details>
+
+            <details class="faq-item fade-up">
+                <summary>Меня не забанят за ИИ-тексты?</summary>
+                <div class="faq-content">Нет. Мы выпускаем контент с интервалами, используем уникальные промпты и, главное, очищаем фотографии от "AI-меток", делая контент максимально естественным для алгоритмов.</div>
+            </details>
+
+            <details class="faq-item fade-up">
+                <summary>Могу ли я остановить или изменить публикацию?</summary>
+                <div class="faq-content">В тарифах Mini и Premium вы управляете процессом полностью. В тарифе Plus (подписка) публикация идет автоматически по расписанию, изменения вносятся по запросу.</div>
+            </details>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contact">
+        <div class="calmopsai-container footer-grid fade-up">
+            <div>
+                <a class="logo" href="https://calmopsai.com/" target="_blank" style="font-size: 28px; margin-bottom: 20px; display: block;">CalmOpsAi</a>
+                <p style="color: var(--text-gray); font-size: 16px; line-height: 1.6;">
+                    Автоматизация системного бизнеса.<br>
+                    n8n / Python / AI-агенты.<br>
+                    Москва / Дубай / Россия.
+                </p>
+                <div style="margin-top: 25px; display: flex; gap: 15px;">
+                    <a href="https://www.linkedin.com/in/aleksei-doronin-84b5b027/" target="_blank" class="contact-card" style="padding: 12px; border-radius: 50%;"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.instagram.com/alexeidoronin" target="_blank" class="contact-card" style="padding: 12px; border-radius: 50%;"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-contacts">
+                <a href="https://t.me/AlexD_GOLD" target="_blank" class="contact-card">
+                    <span class="c-label">Telegram</span>
+                    <span style="font-weight: 700;">@AlexD_GOLD</span>
+                </a>
+                <a href="https://wa.me/971509751317" target="_blank" class="contact-card">
+                    <span class="c-label">WhatsApp</span>
+                    <span style="font-weight: 700;">+971 50 975 1317</span>
+                </a>
+                <a href="mailto:alexneurosolutions@gmail.com" target="_blank" class="contact-card">
+                    <span class="c-label">Email</span>
+                    <span style="font-weight: 700; font-size: 13px;">alexneurosolutions@gmail.com</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="tech-stack">
+            <span>n8n Workflow</span>
+            <span>•</span>
+            <span>Cursor IDE</span>
+            <span>•</span>
+            <span>Google Anti-Gravity</span>
+        </div>
+        
+        <div class="calmopsai-container" style="margin-top: 50px; font-size: 12px; color: rgba(255,255,255,0.2); text-align: center;">
+            © 2026 CalmOpsAi. Все права защищены.
+        </div>
+    </footer>
+
+    <!-- FAB -->
+    <a href="https://t.me/AlexD_GOLD" target="_blank" class="tg-fab">
+        <i class="fab fa-telegram-plane"></i>
+    </a>
+
+</div>
+
+<script>
+    // Intersection Observer for animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Reactor Tilt Logic
+    const visual = document.querySelector('.calmopsai-hero-visual');
+    const wrapper = document.querySelector('.reactor-tilt-wrapper');
+    if(visual) {
+        visual.addEventListener('mousemove', (e) => {
+            const rect = visual.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            wrapper.style.transform = `rotateX(${y * -25}deg) rotateY(${x * 25}deg)`;
+        });
+        visual.addEventListener('mouseleave', () => {
+            wrapper.style.transform = `rotateX(0) rotateY(0)`;
+        });
+    }
+</script>
+</body>
+</html>

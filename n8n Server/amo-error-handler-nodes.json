@@ -1,0 +1,78 @@
+[
+  {
+    "parameters": {},
+    "id": "err-trigger-01",
+    "name": "Error Trigger",
+    "type": "n8n-nodes-base.errorTrigger",
+    "typeVersion": 1,
+    "position": [0, 0]
+  },
+  {
+    "parameters": {
+      "amount": 300,
+      "unit": "seconds",
+      "resume": "timeInterval"
+    },
+    "id": "wait-01",
+    "name": "Wait 5 min",
+    "type": "n8n-nodes-base.wait",
+    "typeVersion": 1.1,
+    "position": [220, 0],
+    "webhookId": "amo-err-wait-01"
+  },
+  {
+    "parameters": {
+      "resource": "execution",
+      "operation": "get",
+      "executionId": "={{ $('Error Trigger').item.json.execution.id }}",
+      "options": { "includeData": true }
+    },
+    "id": "n8n-get-01",
+    "name": "Get Execution",
+    "type": "n8n-nodes-base.n8n",
+    "typeVersion": 1,
+    "position": [440, 0]
+  },
+  {
+    "parameters": {
+      "mode": "runOnceForAllItems",
+      "jsCode": "const exec = $input.first().json;\nconst runData = exec?.data?.resultData?.runData;\nif (!runData) return [{ json: { error: 'No execution data', skip: true } }];\nconst webhookKey = Object.keys(runData).find(k => runData[k]?.[0]?.data?.main?.[0]?.[0]?.json?.body);\nconst webhookOut = webhookKey ? runData[webhookKey][0].data.main[0][0].json : null;\nif (!webhookOut?.body) return [{ json: { error: 'No webhook body', skip: true } }];\nconst body = typeof webhookOut.body === 'string' ? webhookOut.body : new URLSearchParams(webhookOut.body).toString();\nreturn [{ json: { body, skip: false } }];"
+    },
+    "id": "code-01",
+    "name": "Extract webhook body",
+    "type": "n8n-nodes-base.code",
+    "typeVersion": 2,
+    "position": [660, 0]
+  },
+  {
+    "parameters": {
+      "conditions": {
+        "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+        "conditions": [{ "id": "skip-check", "leftValue": "={{ $json.skip }}", "rightValue": false, "operator": { "type": "boolean", "operation": "equals" } }],
+        "combinator": "and"
+      }
+    },
+    "id": "if-01",
+    "name": "Has body?",
+    "type": "n8n-nodes-base.if",
+    "typeVersion": 2,
+    "position": [880, 0]
+  },
+  {
+    "parameters": {
+      "method": "POST",
+      "url": "https://vps-39eb0606.vps.ovh.ca/webhook/4d00ff65-0d6f-45bc-80f5-effc885e48fe",
+      "sendBody": true,
+      "specifyBody": "string",
+      "body": "={{ $json.body }}",
+      "sendHeaders": true,
+      "headerParameters": { "parameters": [{ "name": "Content-Type", "value": "application/x-www-form-urlencoded" }] },
+      "options": { "allowUnauthorizedCerts": true }
+    },
+    "id": "http-01",
+    "name": "Re-post webhook",
+    "type": "n8n-nodes-base.httpRequest",
+    "typeVersion": 4.2,
+    "position": [1100, -100]
+  }
+]
