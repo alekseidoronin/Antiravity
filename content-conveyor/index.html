@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Контент Конвейер CalmOpsAi — Автоматизация SEO и Соцсетей</title>
-    <!-- Подключение FontAwesome 6 для всех иконок -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Контент Конвейер</title>
+    <link rel="icon" type="image/svg+xml" href="https://calmopsai.com/favicon.svg">
+    <link rel="alternate icon" type="image/x-icon" href="https://calmopsai.com/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         /* --- CORE VARIABLES & BACKGROUND --- */
         html { scroll-behavior: smooth; }
+
+        body { margin: 0; padding: 0; background: #000; }
         
         #calmopsai-root {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -48,63 +51,47 @@
             z-index: 5;
         }
 
-        /* --- NAV --- */
+        /* --- NAV (rounded pill) --- */
         #calmopsai-root nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
+            padding: 12px 24px 12px 20px;
             position: fixed;
-            top: 0; left: 0; width: 100%;
-            z-index: 9999; 
-            background: rgba(13, 17, 23, 0.85);
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 1100px;
+            z-index: 9999;
+            background: rgba(31, 36, 48, 0.92);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--c-glass-border);
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
         }
         
-        #calmopsai-root .logo {
-            font-size: 22px;
-            font-weight: 800;
-            color: #fff;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        #calmopsai-root .nav-links { display: flex; gap: 24px; align-items: center; }
-        #calmopsai-root .nav-links a {
-            color: #d1d5db;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            text-transform: none !important;
-        }
-        #calmopsai-root .nav-links a:hover { color: var(--c-primary); }
-
-        #calmopsai-root .btn-nav {
-            display: inline-flex; padding: 10px 24px; 
-            background: linear-gradient(90deg, var(--c-secondary), var(--c-primary)); 
-            color: #fff !important; font-weight: 700; font-size: 13px; border-radius: 50px; 
-            text-decoration: none; transition: 0.3s; box-shadow: var(--glow);
-        }
+        #calmopsai-root .logo { font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        #calmopsai-root .logo i { color: #74C0FC; }
+        #calmopsai-root .nav-links { display: flex; gap: 28px; align-items: center; }
+        #calmopsai-root .nav-links a { color: #fff; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; text-transform: none !important; }
+        #calmopsai-root .nav-links a:hover { color: rgba(255,255,255,0.8); }
+        .lang-switch { display: flex; align-items: stretch; background: rgba(20,25,35,0.9); border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); overflow: hidden; margin-right: 16px; }
+        .lang-btn { padding: 8px 16px; margin: 0; background: transparent; border: none; color: rgba(255,255,255,0.5); cursor: pointer; font-weight: 600; font-size: 13px; font-family: inherit; transition: 0.2s; }
+        .lang-btn:hover { color: rgba(255,255,255,0.8); }
+        .lang-btn.active { background: rgba(255,255,255,0.15); color: #fff; }
+        .lang-btn:first-child { border-right: 1px solid rgba(255,255,255,0.12); }
+        #calmopsai-root .btn-nav { display: inline-flex; padding: 10px 22px; background: #3366FF; color: #fff !important; font-weight: 700; font-size: 13px; border-radius: 50px; text-decoration: none; transition: 0.2s; box-shadow: 0 4px 16px rgba(51,102,255,0.4); }
+        #calmopsai-root .btn-nav:hover { background: #4d7aff; box-shadow: 0 6px 20px rgba(51,102,255,0.5); }
 
         /* --- HERO --- */
-        .calmopsai-hero {
-            padding: 180px 0 100px;
-            min-height: 90vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
+        .calmopsai-hero { padding: 120px 0 100px; min-height: 90vh; display: flex; align-items: center; position: relative; }
         .calmopsai-hero-inner { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 40px; }
-        .calmopsai-hero-text { flex: 0 0 50%; z-index: 10; }
+        .calmopsai-hero-text { flex: 0 0 46%; max-width: 46%; z-index: 10; margin-top: 28px; }
         .calmopsai-hero-visual { flex: 0 0 50%; position: relative; height: 600px; display: flex; align-items: center; justify-content: center; }
-
-        .calmopsai-hero h1 { font-size: 58px; font-weight: 900; margin-bottom: 24px; line-height: 1.1; }
-        .calmopsai-hero h1 span { text-shadow: 0 0 25px rgba(12, 235, 235, 0.7); color: var(--c-primary); }
-        .calmopsai-hero p { font-size: 18px; color: #fff; margin-bottom: 40px; line-height: 1.6; background: rgba(0,0,0,0.3); backdrop-filter: blur(15px); padding: 25px; border-radius: 16px; }
+        .calmopsai-hero h1 { font-size: 58px; font-weight: 900; margin-bottom: 24px; line-height: 1.1; min-height: 1.2em; }
+        .calmopsai-hero h1 span { text-shadow: 0 0 25px rgba(12, 235, 235, 0.7); color: var(--c-primary); display: inline-block; }
+        .calmopsai-hero p { font-size: 15px; color: #fff; margin-bottom: 32px; line-height: 1.42; background: rgba(0,0,0,0.3); backdrop-filter: blur(15px); padding: 16px 20px; border-radius: 14px; }
 
         /* --- 3D REACTOR (ROCK-SOLID SVG LOGOS) --- */
         .calmopsai-reactor {
@@ -112,6 +99,7 @@
             width: 700px; height: 700px; perspective: 1500px;
         }
         .reactor-tilt-wrapper { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: 0.1s; }
+        .orbits-paused .calmopsai-orbit, .orbits-paused .calmopsai-planet, .orbits-paused .calmopsai-core { animation-play-state: paused !important; }
         
         .calmopsai-core {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -154,21 +142,25 @@
         }
 
         /* Specific positions for 10 platforms */
-        .pos-1 { top: 0; left: 50%; } /* WordPress */
-        .pos-2 { top: 75%; left: 93.3%; } /* VK */
-        .pos-3 { top: 75%; left: 6.7%; } /* Telegraph */
-        .pos-4 { top: 15%; left: 15%; } /* Instagram */
-        .pos-5 { top: 15%; left: 85%; } /* Facebook */
-        .pos-6 { top: 100%; left: 50%; } /* Pinterest */
-        .pos-7 { top: 50%; left: 0%; } /* LinkedIn */
-        .pos-8 { top: 0%; left: 50%; } /* Дзен */
-        .pos-9 { top: 50%; left: 100%; } /* Threads */
-        .pos-10 { top: 100%; left: 50%; } /* OK */
+        .pos-1 { top: 0; left: 50%; }
+        .pos-2 { top: 75%; left: 93.3%; }
+        .pos-3 { top: 75%; left: 6.7%; }
+        .pos-4 { top: 15%; left: 15%; }
+        .pos-5 { top: 15%; left: 85%; }
+        .pos-6 { top: 100%; left: 50%; }
+        .pos-7 { top: 50%; left: 0%; }
+        .pos-8 { top: 15%; left: 50%; }
+        .pos-9 { top: 50%; left: 100%; }
+        .pos-10 { top: 100%; left: 50%; }
 
-        /* Custom Icon Styles */
         .telegraph-icon { font-family: 'Georgia', serif; font-weight: bold; font-size: 24px; color: #fff; transform: translateY(-1px); }
         .dzen-svg { width: 26px; height: 26px; fill: #fff; }
-        .threads-svg { width: 24px; height: 24px; fill: #fff; }
+
+        .platform-ticker-wrap { overflow: hidden; padding: 24px 0; border-top: 1px solid var(--c-glass-border); border-bottom: 1px solid var(--c-glass-border); margin: 40px 0; }
+        .platform-ticker { display: flex; white-space: nowrap; animation: ticker-move 25s linear infinite; }
+        .platform-ticker span { display: inline-flex; align-items: center; gap: 8px; padding-right: 60px; font-size: 14px; color: var(--text-gray); }
+        .platform-dot { width: 6px; height: 6px; background: var(--c-primary); border-radius: 50%; }
+        @keyframes ticker-move { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* --- BLOCKS --- */
         .calmopsai-section { padding: 100px 0; }
@@ -193,15 +185,15 @@
         .step-content b { color: var(--c-primary); display: block; margin-bottom: 5px; font-size: 18px; }
 
         /* PRICING */
-        .pricing-scroll { overflow-x: auto; padding-bottom: 20px; }
+        .pricing-scroll { overflow-x: auto; padding-bottom: 20px; max-width: 1100px; margin: 0 auto; }
         .pricing-table { 
-            width: 100%; border-collapse: separate; border-spacing: 0; 
-            background: var(--c-glass-strong); border-radius: 30px; overflow: hidden;
-            border: 1px solid var(--c-glass-border);
+            width: 100%; min-width: 900px; border-collapse: separate; border-spacing: 0; 
+            background: var(--c-glass-strong); border-radius: 20px; overflow: hidden;
+            border: 1px solid var(--c-glass-border); font-size: 14px;
         }
-        .pricing-table th, .pricing-table td { padding: 25px; text-align: center; border-bottom: 1px solid var(--c-glass-border); }
-        .pricing-table th { background: rgba(255,255,255,0.05); font-size: 18px; color: var(--c-primary); }
-        .pricing-table td:first-child { text-align: left; font-weight: 600; color: var(--text-gray); width: 250px; }
+        .pricing-table th, .pricing-table td { padding: 18px 24px; text-align: center; border-bottom: 1px solid var(--c-glass-border); line-height: 1.45; }
+        .pricing-table th { background: rgba(255,255,255,0.05); font-size: 16px; color: var(--c-primary); padding: 20px 24px; }
+        .pricing-table td:first-child { text-align: left; font-weight: 600; color: var(--text-gray); min-width: 180px; width: 22%; }
         .price-row td { font-size: 28px; font-weight: 900; color: #fff; }
         .featured-col { background: rgba(184, 41, 255, 0.1); border-left: 1px solid var(--c-secondary); border-right: 1px solid var(--c-secondary); }
 
@@ -213,13 +205,12 @@
         .faq-content { padding: 0 20px 20px; color: var(--text-gray); }
 
         /* FOOTER */
-        footer { padding: 80px 0 40px; background: rgba(0,0,0,0.4); border-top: 1px solid var(--c-glass-border); }
-        .footer-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 50px; }
-        .footer-contacts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .contact-card { background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; text-decoration: none; color: #fff; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; display: flex; flex-direction: column; gap: 8px; }
-        .contact-card:hover { border-color: var(--c-primary); transform: translateY(-5px); }
-        .c-label { font-size: 11px; text-transform: uppercase; color: var(--text-gray); letter-spacing: 1px; }
-        .tech-stack { margin-top: 40px; display: flex; gap: 20px; opacity: 0.4; font-size: 12px; justify-content: center; font-weight: 600; }
+        footer { padding: 40px 0 24px; background: rgba(0,0,0,0.4); border-top: 1px solid var(--c-glass-border); }
+        .footer-grid { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
+        .footer-contacts { display: flex; gap: 12px; align-items: center; }
+        .footer-contacts .contact-card { width: 52px; height: 52px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); text-decoration: none; color: #fff; transition: 0.3s; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 12px rgba(0,0,0,0.2); }
+        .footer-contacts .contact-card:hover { border-color: var(--c-primary); transform: translateY(-2px) scale(1.05); box-shadow: 0 4px 16px rgba(12,235,235,0.25); color: var(--c-primary); }
+        .footer-contacts .contact-card i { font-size: 22px; }
 
         .tg-fab {
             position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
@@ -242,8 +233,8 @@
             .calmopsai-hero-visual { height: 400px; width: 100%; margin-top: 20px; }
             .calmopsai-reactor { transform: translate(-50%, -50%) scale(0.45); }
             .problem-grid { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr; text-align: center; }
-            .footer-contacts { grid-template-columns: 1fr; }
+            .footer-grid { flex-direction: column; text-align: center; }
+            .footer-grid > div:first-child { flex-direction: column; }
         }
 
         .fade-up { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
@@ -252,7 +243,7 @@
 </head>
 <body>
 
-<div id="calmopsai-root">
+<div id="calmopsai-root" class="orbits-paused">
     
     <!-- NAVIGATION -->
     <nav>
@@ -260,22 +251,31 @@
             <i class="fas fa-code-branch fa-spin" style="color: var(--c-primary);"></i> CalmOpsAi
         </a>
         <div class="nav-links">
-            <a href="#about">Процесс</a>
-            <a href="#pricing">Тарифы</a>
-            <a href="#faq">FAQ</a>
-            <a href="https://www.neuroalex.site/" target="_blank">Блог</a>
+            <a href="#expertise" data-i18n="nav.expertise">Экспертиза</a>
+            <a href="#about" data-i18n="nav.process">Процесс</a>
+            <a href="#fit" data-i18n="nav.who">Кому подойдёт</a>
+            <a href="#pricing" data-i18n="nav.pricing">Тарифы</a>
+            <a href="#faq" data-i18n="nav.faq">FAQ</a>
+            <a href="#contact" data-i18n="nav.contact">Контакты</a>
+            <a href="https://www.neuroalex.site/" target="_blank" data-i18n="nav.blog">Блог</a>
         </div>
-        <a href="https://t.me/AlexD_GOLD" target="_blank" class="btn-nav">Связаться</a>
+        <div style="display:flex; align-items:center; gap:16px;">
+            <div class="lang-switch">
+                <button type="button" class="lang-btn active" data-lang="ru" aria-label="Русский">RU</button>
+                <button type="button" class="lang-btn" data-lang="en" aria-label="English">EN</button>
+            </div>
+            <a href="https://t.me/AlexD_GOLD" target="_blank" class="btn-nav" data-i18n="nav.cta">Обсудить проект</a>
+        </div>
     </nav>
 
     <!-- HERO SECTION -->
     <section class="calmopsai-hero">
         <div class="calmopsai-container calmopsai-hero-inner">
             <div class="calmopsai-hero-text">
-                <h1 class="fade-up">Контент Конвейер: <br><span>Автопостинг в 10 сетей</span></h1>
-                <p class="fade-up">Ваш персональный ИИ-редактор. Сам подбирает ключи, очищает метаданные фото, пишет глубокие SEO-статьи и публикует их во все соцсети за 1 клик.</p>
+                <h1 class="fade-up" id="hero-title" data-i18n="hero.title">Контент Конвейер: <br><span data-value="Автопостинг в 10 сетей" id="hero-title-value">Автопостинг в 10 сетей</span></h1>
+                <p class="fade-up" data-i18n="hero.subtitle">Ваш персональный ИИ-редактор. Сам подбирает ключи, очищает метаданные фото, пишет глубокие SEO-статьи и публикует их во все соцсети за 1 клик.</p>
                 <div class="fade-up">
-                    <a href="https://t.me/AlexD_GOLD" target="_blank" class="btn-main">Запустить Демо в Telegram</a>
+                    <a href="https://t.me/AlexD_GOLD" target="_blank" class="btn-main" data-i18n="hero.cta">Запустить демо</a>
                 </div>
             </div>
             
@@ -284,8 +284,8 @@
                 <div class="calmopsai-reactor">
                     <div class="reactor-tilt-wrapper">
                         <div class="calmopsai-core">
-                            <span style="font-size: 10px; opacity: 0.7;">ENGINE</span>
-                            <span style="font-weight: 900; font-size: 20px;">AI</span>
+                            <span style="font-weight: 900; font-size: 26px; color: var(--c-secondary); text-shadow: 0 0 18px rgba(0,0,0,0.8), 0 0 28px rgba(184,41,255,0.95);">AI</span>
+                            <span style="font-size: 11px; opacity: 0.9; letter-spacing: 0.18em; text-transform: uppercase; color: var(--c-secondary);">ENGINE</span>
                         </div>
                         
                         <!-- Орбита 1: WordPress, ВКонтакте, Telegra.ph -->
@@ -308,11 +308,7 @@
                             <div class="calmopsai-planet pos-8" title="Дзен" style="--p-color: #ffffff;">
                                 <svg class="dzen-svg" viewBox="0 0 24 24"><path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z"/></svg>
                             </div>
-                            <div class="calmopsai-planet pos-9" title="Threads" style="--p-color: #ffffff;">
-                                <svg class="threads-svg" viewBox="0 0 24 24">
-                                    <path d="M15.45 10.74c-.39-2.36-2.32-4.04-4.81-4.04-2.88 0-5.11 2.39-5.11 5.3 0 2.91 2.23 5.3 5.11 5.3 1.62 0 2.93-.7 3.86-1.74l-1.34-1.3c-.63.7-1.5 1.14-2.52 1.14-1.8 0-3.32-1.5-3.32-3.4 0-1.9 1.52-3.4 3.32-3.4 1.48 0 2.76.99 3.16 2.37h-3.48v1.86h5.36c.03 2.22-1.55 4.3-4.52 4.3-3.1 0-5.63-2.48-5.63-5.6 0-3.12 2.53-5.6 5.63-5.6 3.16 0 5.46 2.26 5.46 5.3h-1.63z"/>
-                                </svg>
-                            </div>
+                            <div class="calmopsai-planet pos-9" title="Threads" style="--p-color: #ffffff;"><i class="fab fa-threads"></i></div>
                             <div class="calmopsai-planet pos-10" title="Одноклассники" style="--p-color: #F58220;"><i class="fab fa-odnoklassniki"></i></div>
                         </div>
                     </div>
@@ -321,34 +317,42 @@
         </div>
     </section>
 
+    <!-- RUNNING TICKER -->
+    <div class="platform-ticker-wrap fade-up">
+        <div class="platform-ticker">
+            <span><span class="platform-dot"></span><span>WordPress · VK · Telegra.ph · Instagram · Facebook · Pinterest · LinkedIn · Дзен · Threads · Одноклассники</span></span>
+            <span><span class="platform-dot"></span><span>WordPress · VK · Telegra.ph · Instagram · Facebook · Pinterest · LinkedIn · Дзен · Threads · Одноклассники</span></span>
+        </div>
+    </div>
+
     <!-- PROBLEMS BLOCK -->
-    <section class="calmopsai-section">
+    <section class="calmopsai-section" id="expertise">
         <div class="calmopsai-container">
-            <h2 class="calmopsai-title fade-up">Почему вы теряете трафик?</h2>
-            <div class="problem-grid">
-                <div class="problem-card fade-up">
-                    <span class="stats">$2,500+</span>
-                    <h3>Слив бюджета</h3>
-                    <p>Содержание редакции из копирайтеров и менеджеров сжигает маржу. Конвейер работает без отпусков по цене подписки на API.</p>
+                <h2 class="calmopsai-title fade-up" data-i18n="problems.title">Где вы теряете клиентов и трафик?</h2>
+                <div class="problem-grid">
+                    <div class="problem-card fade-up">
+                        <span class="stats" data-i18n="problems.c1.stat">$2,500+</span>
+                        <h3 data-i18n="problems.c1.title">Слив бюджета</h3>
+                        <p data-i18n="problems.c1.p">Содержание редакции из копирайтеров и менеджеров сжигает маржу. Конвейер берёт на себя рутинные задачи по созданию контента.</p>
+                    </div>
+                    <div class="problem-card fade-up">
+                        <span class="stats" data-i18n="problems.c2.stat">-85% SEO</span>
+                        <h3 data-i18n="problems.c2.title">Забытый органический трафик</h3>
+                        <p data-i18n="problems.c2.p">Посты в соцсетях почти не попадают в результаты поиска. Без собственного SEO-блога вы теряете постоянный поток клиентов из поисковых систем.</p>
+                    </div>
+                    <div class="problem-card fade-up">
+                        <span class="stats" data-i18n="problems.c3.stat">16 часов</span>
+                        <h3 data-i18n="problems.c3.title">Рутина дистрибуции</h3>
+                        <p data-i18n="problems.c3.p">Ручная подготовка одного выпуска контента под несколько каналов отнимает очень много времени и сил. Конвейер делает это автоматически за минуты.</p>
+                    </div>
                 </div>
-                <div class="problem-card fade-up">
-                    <span class="stats">-85% SEO</span>
-                    <h3>Забытый Органик</h3>
-                    <p>Посты в соцсетях не индексируются. Без своего SEO-блога вы теряете вечный поток клиентов из поиска Google и Яндекса.</p>
-                </div>
-                <div class="problem-card fade-up">
-                    <span class="stats">16 часов</span>
-                    <h3>Рутина дистрибуции</h3>
-                    <p>Ручная адаптация лонгрида под 10 площадок занимает 2 рабочих дня. Наш ИИ делает это за 180 секунд без ошибок.</p>
-                </div>
-            </div>
         </div>
     </section>
 
     <!-- PIPELINE -->
     <section class="calmopsai-section" id="about">
         <div class="calmopsai-container">
-            <h2 class="calmopsai-title fade-up">Как работает Ваш Конвейер</h2>
+            <h2 class="calmopsai-title fade-up" data-i18n="pipeline.title">Как работает Ваш Конвейер</h2>
             <div class="pipeline-container">
                 <div class="pipeline-step fade-up">
                     <div class="step-num">01</div>
@@ -389,15 +393,69 @@
         </div>
     </section>
 
+    <!-- RUNNING TICKER -->
+    <div class="platform-ticker-wrap fade-up">
+        <div class="platform-ticker">
+            <span><span class="platform-dot"></span><span>WordPress · VK · Telegra.ph · Instagram · Facebook · Pinterest · LinkedIn · Дзен · Threads · Одноклассники</span></span>
+            <span><span class="platform-dot"></span><span>WordPress · VK · Telegra.ph · Instagram · Facebook · Pinterest · LinkedIn · Дзен · Threads · Одноклассники</span></span>
+        </div>
+    </div>
+
+    <!-- FIT SECTION -->
+    <section class="calmopsai-section" id="fit">
+        <div class="calmopsai-container">
+            <h2 class="calmopsai-title fade-up" data-i18n="fit.title">Кому подойдёт Контент Конвейер</h2>
+            <div class="problem-grid">
+                <div class="problem-card fade-up">
+                    <span class="stats" data-i18n="fit.c1.stat">Expert</span>
+                    <h3 data-i18n="fit.c1.title">Эксперты и авторы</h3>
+                    <p data-i18n="fit.c1.p">Продюсеры, консультанты и авторы, которые регулярно делятся знаниями и хотят из одной темы получать статью на сайте и посты во всех своих каналах.</p>
+                </div>
+                <div class="problem-card fade-up">
+                    <span class="stats" data-i18n="fit.c2.stat">Business</span>
+                    <h3 data-i18n="fit.c2.title">Интернет‑магазины и онлайн‑сервисы</h3>
+                    <p data-i18n="fit.c2.p">E‑commerce проекты и сервисы, где для карточек товаров и акций нужен системный, продающий контент с визуалом и ссылкой на блог.</p>
+                </div>
+                <div class="problem-card fade-up">
+                    <span class="stats" data-i18n="fit.c3.stat">Team</span>
+                    <h3 data-i18n="fit.c3.title">Маркетинговые и SMM‑команды</h3>
+                    <p data-i18n="fit.c3.p">Внутренние отделы маркетинга и агентства, которым нужно снять рутину с SMM‑менеджеров и копирайтеров и выстроить промышленный конвейер контента.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RUNNING TICKER -->
+    <div class="platform-ticker-wrap fade-up">
+        <div class="platform-ticker">
+            <span><span class="platform-dot"></span><span>WordPress · VK · Telegra.ph · Instagram · Facebook · Pinterest · LinkedIn · Дзен · Threads · Одноклассники</span></span>
+            <span><span class="platform-dot"></span><span>WordPress · VK · Telegra.ph · Instagram · Facebook · Pinterest · LinkedIn · Дзен · Threads · Одноклассники</span></span>
+        </div>
+    </div>
+
+    <!-- BANNER -->
+    <section class="calmopsai-section">
+        <div class="calmopsai-container">
+            <div class="calmopsai-banner fade-up" style="max-width:980px;margin:0 auto;">
+                <a href="https://www.neuroalex.site/" target="_blank" rel="noopener noreferrer">
+                    <img id="promo-banner-img" src="https://ml72wzda87ys.i.optimole.com/w:1260/h:703/q:mauto/f:best/https://www.neuroalex.site/wp-content/uploads/2026/02/file-42.png" alt="NeuroAlex — рекомендованный ресурс" style="width:100%;height:auto;border-radius:22px;border:1px solid rgba(255,255,255,0.18);">
+                </a>
+            </div>
+            <div style="margin-top:24px;text-align:center;">
+                <a href="https://calmopsai.com/" target="_blank" class="btn-nav" style="text-decoration:none;padding:10px 24px;border-radius:999px;" data-i18n="banner.link">CalmOpsAi — системная автоматизация бизнеса</a>
+            </div>
+        </div>
+    </section>
+
     <!-- PRICING TABLE -->
     <section class="calmopsai-section" id="pricing">
         <div class="calmopsai-container">
-            <h2 class="calmopsai-title fade-up">Сравнение Тарифов</h2>
+            <h2 class="calmopsai-title fade-up" data-i18n="pricing.title">Сравнение Тарифов</h2>
             <div class="pricing-scroll fade-up">
                 <table class="pricing-table">
                     <thead>
                         <tr>
-                            <th>Параметры</th>
+                            <th data-i18n="pricing.params">Параметры</th>
                             <th>Setup Mini</th>
                             <th>Setup Plus</th>
                             <th class="featured-col">PREMIUM</th>
@@ -405,50 +463,52 @@
                     </thead>
                     <tbody>
                         <tr class="price-row">
-                            <td>Стоимость</td>
+                            <td data-i18n="pricing.cost">Стоимость</td>
                             <td>$1,190</td>
                             <td>$690</td>
                             <td class="featured-col">$2,490</td>
                         </tr>
                         <tr>
-                            <td>Логика работы</td>
-                            <td>Self-hosted (Ваш n8n)</td>
-                            <td>SaaS (Наша платформа)</td>
-                            <td class="featured-col">Enterprise (Full Code)</td>
+                            <td data-i18n="pricing.logic">Логика работы</td>
+                            <td data-i18n="pricing.logic_mini">Площадки и аккаунты под полным управлением клиента</td>
+                            <td data-i18n="pricing.logic_plus">Наш управляемый сервис (подписка)</td>
+                            <td class="featured-col" data-i18n="pricing.logic_premium">Полностью кастомный сценарий под компанию</td>
                         </tr>
                         <tr>
-                            <td>Каналы</td>
-                            <td>5 базовых площадок</td>
-                            <td>8 площадок</td>
-                            <td class="featured-col">Все 10 площадок</td>
+                            <td data-i18n="pricing.channels">Каналы</td>
+                            <td data-i18n="pricing.ch_mini">4 базовые площадки + Pinterest бонусом</td>
+                            <td data-i18n="pricing.ch_plus">5 площадок в базе</td>
+                            <td class="featured-col" data-i18n="pricing.ch_premium">Все 10 каналов</td>
                         </tr>
                         <tr>
-                            <td>Владение данными</td>
-                            <td>Полностью у вас</td>
-                            <td>У нас в облаке</td>
-                            <td class="featured-col">Ваша собственность</td>
+                            <td data-i18n="pricing.data">Владение данными</td>
+                            <td data-i18n="pricing.data_mini">Полностью у вас: доступы, тексты и медиа</td>
+                            <td data-i18n="pricing.data_plus">У нас в облаке (по договору)</td>
+                            <td class="featured-col" data-i18n="pricing.data_premium">Обсуждается: на вашей стороне или у нас</td>
                         </tr>
                         <tr>
-                            <td>Оплата API</td>
-                            <td>Вы платите напрямую</td>
-                            <td>Включено в подписку</td>
-                            <td class="featured-col">Включено/Кастом</td>
+                            <td data-i18n="pricing.payment">Оплата сервисов и ИИ</td>
+                            <td data-i18n="pricing.pay_mini">Вы оплачиваете сервисы и ИИ по мере необходимости</td>
+                            <td data-i18n="pricing.pay_plus">Включено в подписку</td>
+                            <td class="featured-col" data-i18n="pricing.pay_premium">Обсуждается индивидуально</td>
                         </tr>
                         <tr>
-                            <td>Tone of Voice</td>
-                            <td>Базовый</td>
-                            <td>Шаблонный</td>
-                            <td class="featured-col">Персональный под бренд</td>
+                            <td data-i18n="pricing.tov">Tone of Voice</td>
+                            <td data-i18n="pricing.tov_mini">Базовый</td>
+                            <td data-i18n="pricing.tov_plus">Шаблонный</td>
+                            <td class="featured-col" data-i18n="pricing.tov_premium">Персональный под бренд</td>
                         </tr>
                         <tr>
-                            <td><b>WordPress SEO Blog</b></td>
-                            <td colspan="3" style="text-align: center;">Создание сайта-блога при его отсутствии: <b>+$1,000 к любому тарифу</b></td>
+                            <td><b data-i18n="pricing.wp_blog">WordPress SEO Blog</b></td>
+                            <td></td>
+                            <td></td>
+                            <td class="featured-col" style="text-align:center;" data-i18n="pricing.wp_premium">Создание отдельного SEO-блога (WordPress) — только в PREMIUM, условия и стоимость обсуждаем индивидуально</td>
                         </tr>
                         <tr>
                             <td></td>
-                            <td><a href="https://t.me/AlexD_GOLD" target="_blank" class="btn-nav" style="text-decoration: none; padding: 10px 20px; background: rgba(255,255,255,0.1); border-radius: 20px; color: #fff;">Выбрать</a></td>
-                            <td><a href="https://t.me/AlexD_GOLD" target="_blank" class="btn-nav" style="text-decoration: none; padding: 10px 20px; background: rgba(255,255,255,0.1); border-radius: 20px; color: #fff;">Выбрать</a></td>
-                            <td class="featured-col"><a href="https://t.me/AlexD_GOLD" target="_blank" class="btn-main">Начать работу</a></td>
+                            <td><a href="https://t.me/AlexD_GOLD" target="_blank" class="btn-nav" style="text-decoration:none;padding:10px 20px;background:rgba(255,255,255,0.1);border-radius:20px;color:#fff;" data-i18n="pricing.select">Выбрать</a></td>
+                            <td><a href="https://t.me/AlexD_GOLD" target="_blank" class="btn-nav" style="text-decoration:none;padding:10px 20px;background:rgba(255,255,255,0.1);border-radius:20px;color:#fff;" data-i18n="pricing.select">Выбрать</a></td>
+                            <td class="featured-col"><a href="https://t.me/AlexD_GOLD" target="_blank" class="btn-main" data-i18n="pricing.start">Начать работу</a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -459,7 +519,7 @@
     <!-- FAQ -->
     <section class="calmopsai-section" id="faq">
         <div class="calmopsai-container" style="max-width: 900px;">
-            <h2 class="calmopsai-title fade-up">Вопросы и ответы</h2>
+            <h2 class="calmopsai-title fade-up" data-i18n="faq.title">Вопросы и ответы</h2>
             
             <details class="faq-item fade-up">
                 <summary>Что такое "выпуск" контента?</summary>
@@ -496,45 +556,21 @@
     <!-- FOOTER -->
     <footer id="contact">
         <div class="calmopsai-container footer-grid fade-up">
-            <div>
-                <a class="logo" href="https://calmopsai.com/" target="_blank" style="font-size: 28px; margin-bottom: 20px; display: block;">CalmOpsAi</a>
-                <p style="color: var(--text-gray); font-size: 16px; line-height: 1.6;">
-                    Автоматизация системного бизнеса.<br>
-                    n8n / Python / AI-агенты.<br>
-                    Москва / Дубай / Россия.
-                </p>
-                <div style="margin-top: 25px; display: flex; gap: 15px;">
-                    <a href="https://www.linkedin.com/in/aleksei-doronin-84b5b027/" target="_blank" class="contact-card" style="padding: 12px; border-radius: 50%;"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="https://www.instagram.com/alexeidoronin" target="_blank" class="contact-card" style="padding: 12px; border-radius: 50%;"><i class="fab fa-instagram"></i></a>
+            <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+                <a class="logo" href="https://calmopsai.com/" target="_blank" style="font-size:20px;margin:0;">CalmOpsAi</a>
+                <p style="color:var(--text-gray);font-size:13px;line-height:1.4;margin:0;" data-i18n="footer.tagline">CalmOpsAi — системная автоматизация бизнеса.<br>Контент‑конвейеры, интеграции и AI‑агенты под ключ.</p>
+                <div style="display:flex;gap:10px;">
+                    <a href="https://www.linkedin.com/in/aleksei-doronin-84b5b027/" target="_blank" class="contact-card" style="width:40px;height:40px;padding:0;display:flex;align-items:center;justify-content:center;border-radius:50%;"><i class="fab fa-linkedin-in" style="font-size:18px;"></i></a>
+                    <a href="https://www.instagram.com/alexeidoronin" target="_blank" class="contact-card" style="width:40px;height:40px;padding:0;display:flex;align-items:center;justify-content:center;border-radius:50%;"><i class="fab fa-instagram" style="font-size:18px;"></i></a>
                 </div>
             </div>
             <div class="footer-contacts">
-                <a href="https://t.me/AlexD_GOLD" target="_blank" class="contact-card">
-                    <span class="c-label">Telegram</span>
-                    <span style="font-weight: 700;">@AlexD_GOLD</span>
-                </a>
-                <a href="https://wa.me/971509751317" target="_blank" class="contact-card">
-                    <span class="c-label">WhatsApp</span>
-                    <span style="font-weight: 700;">+971 50 975 1317</span>
-                </a>
-                <a href="mailto:alexneurosolutions@gmail.com" target="_blank" class="contact-card">
-                    <span class="c-label">Email</span>
-                    <span style="font-weight: 700; font-size: 13px;">alexneurosolutions@gmail.com</span>
-                </a>
+                <a href="https://t.me/AlexD_GOLD" target="_blank" class="contact-card" title="Telegram" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                <a href="https://wa.me/971509751317" target="_blank" class="contact-card" title="WhatsApp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="mailto:alexneurosolutions@gmail.com" target="_blank" class="contact-card" title="Email" aria-label="Email"><i class="fas fa-envelope"></i></a>
             </div>
         </div>
-        
-        <div class="tech-stack">
-            <span>n8n Workflow</span>
-            <span>•</span>
-            <span>Cursor IDE</span>
-            <span>•</span>
-            <span>Google Anti-Gravity</span>
-        </div>
-        
-        <div class="calmopsai-container" style="margin-top: 50px; font-size: 12px; color: rgba(255,255,255,0.2); text-align: center;">
-            © 2026 CalmOpsAi. Все права защищены.
-        </div>
+        <div class="calmopsai-container" style="margin-top:24px;font-size:11px;color:rgba(255,255,255,0.2);text-align:center;" data-i18n="footer.copyright">© 2026 CalmOpsAi. Все права защищены.</div>
     </footer>
 
     <!-- FAB -->
@@ -545,29 +581,117 @@
 </div>
 
 <script>
-    // Intersection Observer for animations
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) entry.target.classList.add('visible');
-        });
-    }, { threshold: 0.1 });
+    const letters = "ЯЖЦЧШЩФЫБЮЭАВГДЕЗИЙКЛМНОПРСТУХЪЬабвгдежзийклмнопрстуфхцчшщъыьэюя0123456789!@#$%^&*<>{}[]|/\\~`";
+    
+    function scrambleText(element) {
+        let iteration = 0;
+        const originalValue = element.dataset.value;
+        let interval = setInterval(() => {
+            element.innerText = originalValue.split("").map((letter, index) => {
+                if (index < iteration) return originalValue[index];
+                if (originalValue[index] === " ") return " ";
+                return letters[Math.floor(Math.random() * letters.length)];
+            }).join("");
+            if (iteration >= originalValue.length) {
+                clearInterval(interval);
+                document.getElementById('calmopsai-root')?.classList.remove('orbits-paused');
+            }
+            iteration += 1 / 3;
+        }, 30);
+    }
 
+    window.addEventListener('load', () => {
+        const lang = localStorage.getItem('calmopsai-lang') || 'ru';
+        if (typeof applyTranslations === 'function') applyTranslations(lang);
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-lang') === lang));
+        const heroSpan = document.querySelector('#hero-title-value');
+        if (heroSpan) setTimeout(() => scrambleText(heroSpan), 800);
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-    // Reactor Tilt Logic
     const visual = document.querySelector('.calmopsai-hero-visual');
     const wrapper = document.querySelector('.reactor-tilt-wrapper');
-    if(visual) {
+    if (visual && wrapper) {
         visual.addEventListener('mousemove', (e) => {
             const rect = visual.getBoundingClientRect();
             const x = (e.clientX - rect.left) / rect.width - 0.5;
             const y = (e.clientY - rect.top) / rect.height - 0.5;
             wrapper.style.transform = `rotateX(${y * -25}deg) rotateY(${x * 25}deg)`;
         });
-        visual.addEventListener('mouseleave', () => {
-            wrapper.style.transform = `rotateX(0) rotateY(0)`;
-        });
+        visual.addEventListener('mouseleave', () => { wrapper.style.transform = 'rotateX(0) rotateY(0)'; });
     }
+
+    const BANNER_IMG_RU = 'https://ml72wzda87ys.i.optimole.com/w:1260/h:703/q:mauto/f:best/https://www.neuroalex.site/wp-content/uploads/2026/02/file-42.png';
+    const BANNER_IMG_EN = 'https://www.neuroalex.site/wp-content/uploads/2026/01/file-23.png';
+    
+    const translations = {
+        ru: {
+            'nav.expertise':'Экспертиза','nav.process':'Процесс','nav.who':'Кому подойдёт','nav.pricing':'Тарифы','nav.faq':'FAQ','nav.contact':'Контакты','nav.blog':'Блог','nav.cta':'Обсудить проект',
+            'hero.title_value':'Автопостинг в 10 сетей','hero.subtitle':'Ваш персональный ИИ-редактор. Сам подбирает ключи, очищает метаданные фото, пишет глубокие SEO-статьи и публикует их во все соцсети за 1 клик.','hero.cta':'Запустить демо',
+            'problems.title':'Где вы теряете клиентов и трафик?','problems.c1.stat':'$2,500+','problems.c1.title':'Слив бюджета','problems.c1.p':'Содержание редакции из копирайтеров и менеджеров сжигает маржу. Конвейер берёт на себя рутинные задачи по созданию контента.',
+            'problems.c2.stat':'-85% SEO','problems.c2.title':'Забытый органический трафик','problems.c2.p':'Посты в соцсетях почти не попадают в результаты поиска. Без собственного SEO-блога вы теряете постоянный поток клиентов из поисковых систем.',
+            'problems.c3.stat':'16 часов','problems.c3.title':'Рутина дистрибуции','problems.c3.p':'Ручная подготовка одного выпуска контента под несколько каналов отнимает очень много времени и сил. Конвейер делает это автоматически за минуты.',
+            'pipeline.title':'Как работает Ваш Конвейер','fit.title':'Кому подойдёт Контент Конвейер','fit.c1.stat':'Expert','fit.c1.title':'Эксперты и авторы','fit.c1.p':'Продюсеры, консультанты и авторы, которые регулярно делятся знаниями и хотят из одной темы получать статью на сайте и посты во всех своих каналах.',
+            'fit.c2.stat':'Business','fit.c2.title':'Интернет‑магазины и онлайн‑сервисы','fit.c2.p':'E‑commerce проекты и сервисы, где для карточек товаров и акций нужен системный, продающий контент с визуалом и ссылкой на блог.',
+            'fit.c3.stat':'Team','fit.c3.title':'Маркетинговые и SMM‑команды','fit.c3.p':'Внутренние отделы маркетинга и агентства, которым нужно снять рутину с SMM‑менеджеров и копирайтеров и выстроить промышленный конвейер контента.',
+            'banner.link':'CalmOpsAi — системная автоматизация бизнеса','pricing.title':'Сравнение Тарифов','pricing.params':'Параметры','pricing.cost':'Стоимость','pricing.logic':'Логика работы','pricing.channels':'Каналы','pricing.data':'Владение данными','pricing.payment':'Оплата сервисов и ИИ','pricing.tov':'Tone of Voice','pricing.wp_blog':'WordPress SEO Blog',
+            'pricing.logic_mini':'Площадки и аккаунты под полным управлением клиента','pricing.logic_plus':'Наш управляемый сервис (подписка)','pricing.logic_premium':'Полностью кастомный сценарий под компанию',
+            'pricing.ch_mini':'4 базовые площадки + Pinterest бонусом','pricing.ch_plus':'5 площадок в базе','pricing.ch_premium':'Все 10 каналов',
+            'pricing.data_mini':'Полностью у вас: доступы, тексты и медиа','pricing.data_plus':'У нас в облаке (по договору)','pricing.data_premium':'Обсуждается: на вашей стороне или у нас',
+            'pricing.pay_mini':'Вы оплачиваете сервисы и ИИ по мере необходимости','pricing.pay_plus':'Включено в подписку','pricing.pay_premium':'Обсуждается индивидуально',
+            'pricing.tov_mini':'Базовый','pricing.tov_plus':'Шаблонный','pricing.tov_premium':'Персональный под бренд','pricing.wp_premium':'Создание отдельного SEO-блога (WordPress) — только в PREMIUM, условия и стоимость обсуждаем индивидуально','pricing.select':'Выбрать','pricing.start':'Начать работу',
+            'faq.title':'Вопросы и ответы','footer.tagline':'CalmOpsAi — системная автоматизация бизнеса.<br>Контент‑конвейеры, интеграции и AI‑агенты под ключ.','footer.copyright':'© 2026 CalmOpsAi. Все права защищены.'
+        },
+        en: {
+            'nav.expertise':'Expertise','nav.process':'Process','nav.who':'Who it\'s for','nav.pricing':'Pricing','nav.faq':'FAQ','nav.contact':'Contact','nav.blog':'Blog','nav.cta':'Discuss project',
+            'hero.title_value':'Auto-posting to 10 networks','hero.subtitle':'Your personal AI editor. Picks keywords, cleans photo metadata, writes in-depth SEO articles and publishes them to all social networks in one click.','hero.cta':'Launch demo',
+            'problems.title':'Where do you lose clients and traffic?','problems.c1.stat':'$2,500+','problems.c1.title':'Budget drain','problems.c1.p':'Running an in-house team of copywriters and managers burns margin. The Conveyor takes over routine content creation.',
+            'problems.c2.stat':'-85% SEO','problems.c2.title':'Missed organic traffic','problems.c2.p':'Social posts rarely show up in search. Without your own SEO blog you miss a steady stream of clients from search engines.',
+            'problems.c3.stat':'16 hrs','problems.c3.title':'Distribution routine','problems.c3.p':'Preparing one content drop for multiple channels by hand takes a lot of time and effort. The Conveyor does it automatically in minutes.',
+            'pipeline.title':'How your Conveyor works','fit.title':'Who the Content Conveyor is for','fit.c1.stat':'Expert','fit.c1.title':'Experts and authors','fit.c1.p':'Producers, consultants and authors who share knowledge regularly and want one topic to become a site article plus posts across all their channels.',
+            'fit.c2.stat':'Business','fit.c2.title':'Online stores and services','fit.c2.p':'E‑commerce and services that need consistent, sales-focused content with visuals and blog links for product pages and promotions.',
+            'fit.c3.stat':'Team','fit.c3.title':'Marketing and SMM teams','fit.c3.p':'In-house marketing and agencies that want to take routine work off SMM managers and copywriters and run a scalable content pipeline.',
+            'banner.link':'CalmOpsAi — business automation','pricing.title':'Compare plans','pricing.params':'Parameters','pricing.cost':'Price','pricing.logic':'Execution logic','pricing.channels':'Channels','pricing.data':'Data ownership','pricing.payment':'Services & AI billing','pricing.tov':'Tone of Voice','pricing.wp_blog':'WordPress SEO Blog',
+            'pricing.logic_mini':'Platforms and accounts fully managed by the client','pricing.logic_plus':'Our managed service (subscription)','pricing.logic_premium':'Fully custom scenario for your company',
+            'pricing.ch_mini':'4 base platforms + Pinterest as bonus','pricing.ch_plus':'5 platforms included','pricing.ch_premium':'All 10 channels',
+            'pricing.data_mini':'Fully yours: access, texts and media','pricing.data_plus':'In our cloud (by agreement)','pricing.data_premium':'Discussed: on your side or ours',
+            'pricing.pay_mini':'You pay for services and AI as you go','pricing.pay_plus':'Included in subscription','pricing.pay_premium':'Discussed individually',
+            'pricing.tov_mini':'Basic','pricing.tov_plus':'Templated','pricing.tov_premium':'Brand-specific','pricing.wp_premium':'Separate SEO blog (WordPress) — Premium only; terms and cost discussed individually.','pricing.select':'Select','pricing.start':'Start project',
+            'faq.title':'FAQ','footer.tagline':'CalmOpsAi — business automation.<br>Content conveyors, integrations and AI agents turnkey.','footer.copyright':'© 2026 CalmOpsAi. All rights reserved.'
+        }
+    };
+
+    function applyTranslations(lang) {
+        document.documentElement.lang = lang;
+        document.title = lang === 'ru' ? 'Контент Конвейер' : 'Content Conveyor';
+        const t = translations[lang] || translations.ru;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (!t[key]) return;
+            if (key === 'hero.title') {
+                const val = t['hero.title_value'];
+                el.innerHTML = lang === 'ru' ? 'Контент Конвейер: <br><span data-value="Автопостинг в 10 сетей" id="hero-title-value">Автопостинг в 10 сетей</span>' : 'Content Conveyor: <br><span data-value="'+val+'" id="hero-title-value">'+val+'</span>';
+                return;
+            }
+            if (key === 'footer.tagline') { el.innerHTML = t[key]; return; }
+            el.textContent = t[key];
+        });
+        const bannerImg = document.getElementById('promo-banner-img');
+        if (bannerImg) bannerImg.src = lang === 'en' ? BANNER_IMG_EN : BANNER_IMG_RU;
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-lang') === lang));
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            localStorage.setItem('calmopsai-lang', lang);
+            applyTranslations(lang);
+        });
+    });
 </script>
 </body>
 </html>
