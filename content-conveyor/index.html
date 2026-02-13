@@ -6,6 +6,9 @@
     <title>Контент Конвейер</title>
     <link rel="icon" type="image/svg+xml" href="https://calmopsai.com/favicon.svg">
     <link rel="alternate icon" type="image/x-icon" href="https://calmopsai.com/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         /* --- CORE VARIABLES & BACKGROUND --- */
@@ -235,6 +238,11 @@
             .problem-grid { grid-template-columns: 1fr; }
             .footer-grid { flex-direction: column; text-align: center; }
             .footer-grid > div:first-child { flex-direction: column; }
+        }
+        @media (max-width: 900px) {
+            #calmopsai-root nav { flex-wrap: wrap; padding: 12px 16px; width: calc(100% - 24px); }
+            #calmopsai-root .nav-links { order: 3; width: 100%; overflow-x: auto; padding: 8px 0; gap: 16px; -webkit-overflow-scrolling: touch; }
+            #calmopsai-root .nav-links a { white-space: nowrap; font-size: 13px; }
         }
 
         .fade-up { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
@@ -522,33 +530,33 @@
             <h2 class="calmopsai-title fade-up" data-i18n="faq.title">Вопросы и ответы</h2>
             
             <details class="faq-item fade-up">
-                <summary>Что такое "выпуск" контента?</summary>
-                <div class="faq-content">Это одна глубокая тема, которая автоматически превращается в 10 разных форматов: от статьи на сайте до коротких постов и визуалов в соцсетях.</div>
+                <summary data-i18n="faq.q1">Что такое "выпуск" контента?</summary>
+                <div class="faq-content" data-i18n="faq.a1">Это одна глубокая тема, которая автоматически превращается в 10 разных форматов: от статьи на сайте до коротких постов и визуалов в соцсетях.</div>
             </details>
 
             <details class="faq-item fade-up">
-                <summary>Нужны ли вам мои логины и пароли?</summary>
-                <div class="faq-content">Для настройки нам потребуется либо ваша помощь в создании API-ключей, либо временный расшаренный доступ к аккаунтам, чтобы автоматизация могла публиковать посты.</div>
+                <summary data-i18n="faq.q2">Нужны ли вам мои логины и пароли?</summary>
+                <div class="faq-content" data-i18n="faq.a2">Для настройки нам потребуется либо ваша помощь в создании API-ключей, либо временный расшаренный доступ к аккаунтам, чтобы автоматизация могла публиковать посты.</div>
             </details>
 
             <details class="faq-item fade-up">
-                <summary>Зачем мне WordPress сайт-блог?</summary>
-                <div class="faq-content">Соцсети — это арендованный охват. WordPress — ваша база. SEO-блог генерирует органический трафик из поиска годами, даже если соцсеть заблокируют. Мы создаем такой блог "под ключ" за +$1000.</div>
+                <summary data-i18n="faq.q3">Зачем мне WordPress сайт-блог?</summary>
+                <div class="faq-content" data-i18n="faq.a3">Соцсети — это арендованный охват. WordPress — ваша база. SEO-блог генерирует органический трафик из поиска годами, даже если соцсеть заблокируют. Мы создаем такой блог "под ключ" за +$1000.</div>
             </details>
 
             <details class="faq-item fade-up">
-                <summary>Как я подаю темы для Конвейера?</summary>
-                <div class="faq-content">Чаще всего используется простая Google Таблица. Вы вписываете тему — Конвейер "забирает" её, подбирает ключи и запускает весь цикл публикации сам.</div>
+                <summary data-i18n="faq.q4">Как я подаю темы для Конвейера?</summary>
+                <div class="faq-content" data-i18n="faq.a4">Чаще всего используется простая Google Таблица. Вы вписываете тему — Конвейер "забирает" её, подбирает ключи и запускает весь цикл публикации сам.</div>
             </details>
 
             <details class="faq-item fade-up">
-                <summary>Меня не забанят за ИИ-тексты?</summary>
-                <div class="faq-content">Нет. Мы выпускаем контент с интервалами, используем уникальные промпты и, главное, очищаем фотографии от "AI-меток", делая контент максимально естественным для алгоритмов.</div>
+                <summary data-i18n="faq.q5">Меня не забанят за ИИ-тексты?</summary>
+                <div class="faq-content" data-i18n="faq.a5">Нет. Мы выпускаем контент с интервалами, используем уникальные промпты и, главное, очищаем фотографии от "AI-меток", делая контент максимально естественным для алгоритмов.</div>
             </details>
 
             <details class="faq-item fade-up">
-                <summary>Могу ли я остановить или изменить публикацию?</summary>
-                <div class="faq-content">В тарифах Mini и Premium вы управляете процессом полностью. В тарифе Plus (подписка) публикация идет автоматически по расписанию, изменения вносятся по запросу.</div>
+                <summary data-i18n="faq.q6">Могу ли я остановить или изменить публикацию?</summary>
+                <div class="faq-content" data-i18n="faq.a6">В тарифах Mini и Premium вы управляете процессом полностью. В тарифе Plus (подписка) публикация идет автоматически по расписанию, изменения вносятся по запросу.</div>
             </details>
         </div>
     </section>
@@ -644,7 +652,14 @@
             'pricing.data_mini':'Полностью у вас: доступы, тексты и медиа','pricing.data_plus':'У нас в облаке (по договору)','pricing.data_premium':'Обсуждается: на вашей стороне или у нас',
             'pricing.pay_mini':'Вы оплачиваете сервисы и ИИ по мере необходимости','pricing.pay_plus':'Включено в подписку','pricing.pay_premium':'Обсуждается индивидуально',
             'pricing.tov_mini':'Базовый','pricing.tov_plus':'Шаблонный','pricing.tov_premium':'Персональный под бренд','pricing.wp_premium':'Создание отдельного SEO-блога (WordPress) — только в PREMIUM, условия и стоимость обсуждаем индивидуально','pricing.select':'Выбрать','pricing.start':'Начать работу',
-            'faq.title':'Вопросы и ответы','footer.tagline':'CalmOpsAi — системная автоматизация бизнеса.<br>Контент‑конвейеры, интеграции и AI‑агенты под ключ.','footer.copyright':'© 2026 CalmOpsAi. Все права защищены.'
+            'faq.title':'Вопросы и ответы',
+            'faq.q1':'Что такое "выпуск" контента?','faq.a1':'Это одна глубокая тема, которая автоматически превращается в 10 разных форматов: от статьи на сайте до коротких постов и визуалов в соцсетях.',
+            'faq.q2':'Нужны ли вам мои логины и пароли?','faq.a2':'Для настройки нам потребуется либо ваша помощь в создании API-ключей, либо временный расшаренный доступ к аккаунтам, чтобы автоматизация могла публиковать посты.',
+            'faq.q3':'Зачем мне WordPress сайт-блог?','faq.a3':'Соцсети — это арендованный охват. WordPress — ваша база. SEO-блог генерирует органический трафик из поиска годами, даже если соцсеть заблокируют. Мы создаем такой блог "под ключ" за +$1000.',
+            'faq.q4':'Как я подаю темы для Конвейера?','faq.a4':'Чаще всего используется простая Google Таблица. Вы вписываете тему — Конвейер "забирает" её, подбирает ключи и запускает весь цикл публикации сам.',
+            'faq.q5':'Меня не забанят за ИИ-тексты?','faq.a5':'Нет. Мы выпускаем контент с интервалами, используем уникальные промпты и, главное, очищаем фотографии от "AI-меток", делая контент максимально естественным для алгоритмов.',
+            'faq.q6':'Могу ли я остановить или изменить публикацию?','faq.a6':'В тарифах Mini и Premium вы управляете процессом полностью. В тарифе Plus (подписка) публикация идет автоматически по расписанию, изменения вносятся по запросу.',
+            'footer.tagline':'CalmOpsAi — системная автоматизация бизнеса.<br>Контент‑конвейеры, интеграции и AI‑агенты под ключ.','footer.copyright':'© 2026 CalmOpsAi. Все права защищены.'
         },
         en: {
             'nav.expertise':'Expertise','nav.process':'Process','nav.who':'Who it\'s for','nav.pricing':'Pricing','nav.faq':'FAQ','nav.contact':'Contact','nav.blog':'Blog','nav.cta':'Discuss project',
@@ -661,7 +676,14 @@
             'pricing.data_mini':'Fully yours: access, texts and media','pricing.data_plus':'In our cloud (by agreement)','pricing.data_premium':'Discussed: on your side or ours',
             'pricing.pay_mini':'You pay for services and AI as you go','pricing.pay_plus':'Included in subscription','pricing.pay_premium':'Discussed individually',
             'pricing.tov_mini':'Basic','pricing.tov_plus':'Templated','pricing.tov_premium':'Brand-specific','pricing.wp_premium':'Separate SEO blog (WordPress) — Premium only; terms and cost discussed individually.','pricing.select':'Select','pricing.start':'Start project',
-            'faq.title':'FAQ','footer.tagline':'CalmOpsAi — business automation.<br>Content conveyors, integrations and AI agents turnkey.','footer.copyright':'© 2026 CalmOpsAi. All rights reserved.'
+            'faq.title':'FAQ',
+            'faq.q1':'What is a content "drop"?','faq.a1':'One in-depth topic that turns into 10 formats automatically: from a site article to short posts and visuals across social networks.',
+            'faq.q2':'Do you need my logins and passwords?','faq.a2':'For setup we need either your help creating API keys or temporary shared access to accounts so the automation can publish posts.',
+            'faq.q3':'Why do I need a WordPress blog?','faq.a3':'Social networks are rented reach. WordPress is your base. An SEO blog brings organic search traffic for years, even if a social platform gets blocked. We build such a blog turnkey for +$1000.',
+            'faq.q4':'How do I submit topics to the Conveyor?','faq.a4':'Usually via a simple Google Sheet. You enter a topic — the Conveyor picks it up, selects keywords and runs the full publication cycle on its own.',
+            'faq.q5':'Won\'t I get banned for AI content?','faq.a5':'No. We publish at intervals, use unique prompts and, importantly, strip photos of "AI marks", making content look natural to algorithms.',
+            'faq.q6':'Can I stop or change a publication?','faq.a6':'On Mini and Premium you have full control. On Plus (subscription) publishing runs automatically on schedule; changes are made on request.',
+            'footer.tagline':'CalmOpsAi — business automation.<br>Content conveyors, integrations and AI agents turnkey.','footer.copyright':'© 2026 CalmOpsAi. All rights reserved.'
         }
     };
 
