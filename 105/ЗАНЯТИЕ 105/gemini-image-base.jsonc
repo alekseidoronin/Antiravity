@@ -1,6 +1,0 @@
-{
-  "baseUrl": "https://generativelanguage.googleapis.com",
-  "log": {
-    "sanitize": ["request.headers.x-goog-api-key"]
-  }
-}

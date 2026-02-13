@@ -102,13 +102,13 @@
         #calmopsai-root .btn-nav:hover { background: #4d7aff; box-shadow: 0 6px 20px rgba(51,102,255,0.5); }
 
         /* --- HERO --- */
-        .calmopsai-hero { padding: 120px 0 100px; min-height: 90vh; display: flex; align-items: center; position: relative; }
+        .calmopsai-hero { padding: 80px 0 50px; min-height: 70vh; display: flex; align-items: center; position: relative; }
         .calmopsai-hero-inner { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 40px; }
         .calmopsai-hero-text { flex: 0 0 46%; max-width: 46%; z-index: 10; margin-top: 28px; }
         .calmopsai-hero-visual { flex: 0 0 50%; position: relative; height: 600px; display: flex; align-items: center; justify-content: center; }
-        .calmopsai-hero h1 { font-size: 58px; font-weight: 900; margin-bottom: 24px; line-height: 1.1; min-height: 1.2em; }
+        .calmopsai-hero h1 { font-size: 58px; font-weight: 900; margin-bottom: 18px; line-height: 1.1; min-height: 1.2em; }
         .calmopsai-hero h1 span { text-shadow: 0 0 25px rgba(12, 235, 235, 0.7); color: var(--c-primary); display: inline-block; }
-        .calmopsai-hero p { font-size: 15px; color: #fff; margin-bottom: 32px; line-height: 1.42; background: rgba(0,0,0,0.3); backdrop-filter: blur(15px); padding: 16px 20px; border-radius: 14px; max-width: 420px; }
+        .calmopsai-hero p { font-size: 15px; color: #fff; margin-bottom: 24px; line-height: 1.42; background: rgba(0,0,0,0.3); backdrop-filter: blur(15px); padding: 16px 20px; border-radius: 14px; max-width: 420px; }
 
         /* --- 3D REACTOR (ROCK-SOLID SVG LOGOS) --- */
         .calmopsai-reactor {
@@ -173,7 +173,7 @@
         .telegraph-icon { font-family: 'Georgia', serif; font-weight: bold; font-size: 24px; color: #fff; transform: translateY(-1px); }
         .dzen-svg { width: 26px; height: 26px; fill: #fff; }
 
-        .platform-ticker-wrap { overflow: hidden; padding: 24px 0; border-top: 1px solid var(--c-glass-border); border-bottom: 1px solid var(--c-glass-border); margin: 40px 0; }
+        .platform-ticker-wrap { overflow: hidden; padding: 16px 0; border-top: 1px solid var(--c-glass-border); border-bottom: 1px solid var(--c-glass-border); margin: 20px 0; }
         .platform-ticker { display: flex; white-space: nowrap; animation: ticker-move 25s linear infinite; }
         .platform-ticker > span { display: inline-flex; align-items: center; gap: 8px; padding-right: 60px; font-size: 14px; color: var(--text-gray); flex-shrink: 0; }
         #calmopsai-root .platform-dot,
@@ -190,20 +190,20 @@
         @keyframes ticker-move { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* --- BLOCKS --- */
-        .calmopsai-section { padding: 100px 0; }
-        .calmopsai-title { font-size: 48px; font-weight: 800; text-align: center; margin-bottom: 60px; }
+        .calmopsai-section { padding: 50px 0; }
+        .calmopsai-title { font-size: 48px; font-weight: 800; text-align: center; margin-bottom: 36px; }
         
-        .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-        .problem-card { background: rgba(255,255,255,0.03); padding: 40px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
+        .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .problem-card { background: rgba(255,255,255,0.03); padding: 28px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
         .problem-card:hover { transform: translateY(-10px); background: rgba(255,255,255,0.07); border-color: var(--c-primary); }
         .problem-card h3 { font-size: 24px; margin-bottom: 15px; color: var(--c-primary); }
         .problem-card .stats { font-size: 32px; font-weight: 800; margin-bottom: 10px; display: block; color: #ff4a4a; }
 
         /* PIPELINE */
-        .pipeline-container { display: flex; flex-direction: column; gap: 15px; max-width: 900px; margin: 0 auto; }
+        .pipeline-container { display: flex; flex-direction: column; gap: 12px; max-width: 900px; margin: 0 auto; }
         .pipeline-step { 
             display: flex; align-items: center; gap: 25px; 
-            background: var(--c-glass-strong); padding: 25px; 
+            background: var(--c-glass-strong); padding: 20px; 
             border-radius: 20px; border-left: 5px solid var(--c-primary);
             transition: 0.3s;
         }
@@ -225,17 +225,17 @@
         .featured-col { background: rgba(184, 41, 255, 0.1); border-left: 1px solid var(--c-secondary); border-right: 1px solid var(--c-secondary); }
 
         /* FAQ */
-        .faq-item { background: var(--c-glass); margin-bottom: 15px; border-radius: 15px; border: 1px solid var(--c-glass-border); }
-        .faq-item summary { padding: 20px; cursor: pointer; font-weight: 700; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+        .faq-item { background: var(--c-glass); margin-bottom: 10px; border-radius: 15px; border: 1px solid var(--c-glass-border); }
+        .faq-item summary { padding: 16px 20px; cursor: pointer; font-weight: 700; list-style: none; display: flex; justify-content: space-between; align-items: center; }
         .faq-item summary::after { content: '→'; color: var(--c-primary); transition: 0.3s; }
         .faq-item[open] summary::after { transform: rotate(90deg); }
-        .faq-content { padding: 0 20px 20px; color: var(--text-gray); }
+        .faq-content { padding: 0 20px 16px; color: var(--text-gray); }
 
         /* FOOTER — Tilda-compatible layout */
         #calmopsai-root footer,
         #calmopsai-root #contact { 
             display: block !important; width: 100% !important; max-width: 100% !important; 
-            padding: 40px 20px 24px !important; margin: 0 !important;
+            padding: 32px 20px 20px !important; margin: 0 !important;
             background: rgba(0,0,0,0.4) !important; border-top: 1px solid var(--c-glass-border); 
             border-radius: 28px 28px 0 0; overflow: hidden; box-sizing: border-box !important;
         }
@@ -252,7 +252,7 @@
         }
         #calmopsai-root .footer-logo { font-size: 20px !important; margin: 0 !important; }
         #calmopsai-root .footer-tagline { color: var(--text-gray) !important; font-size: 13px !important; line-height: 1.4 !important; margin: 0 !important; max-width: 360px !important; }
-        #calmopsai-root .footer-copyright { margin-top: 24px !important; margin-left: auto !important; margin-right: auto !important; padding: 0 20px !important; font-size: 11px !important; color: rgba(255,255,255,0.2) !important; text-align: left !important; max-width: 900px !important; box-sizing: border-box !important; }
+        #calmopsai-root .footer-copyright { margin-top: 16px !important; margin-left: auto !important; margin-right: auto !important; padding: 0 20px !important; font-size: 11px !important; color: rgba(255,255,255,0.2) !important; text-align: left !important; max-width: 900px !important; box-sizing: border-box !important; }
         #calmopsai-root .footer-contacts { 
             display: flex !important; gap: 14px !important; align-items: center !important; 
             flex-shrink: 0 !important; flex-wrap: nowrap !important;
@@ -269,7 +269,7 @@
         #calmopsai-root footer .calmopsai-container { max-width: 900px !important; margin: 0 auto !important; padding: 0 20px !important; }
 
         .tg-fab {
-            position: fixed !important; bottom: max(20px, env(safe-area-inset-bottom, 20px)) !important; right: max(20px, env(safe-area-inset-right, 20px)) !important; width: 56px; height: 56px;
+            position: fixed !important; bottom: 20px !important; right: 20px !important; width: 56px; height: 56px;
             background: #0088cc; color: #fff; border-radius: 50%; display: flex;
             align-items: center; justify-content: center; font-size: 24px; text-decoration: none;
             box-shadow: 0 10px 25px rgba(0, 136, 204, 0.5); z-index: 10000; transition: 0.3s;
@@ -283,17 +283,28 @@
         .btn-main:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(184, 41, 255, 0.6); }
 
         @media (max-width: 960px) {
-            .calmopsai-hero { flex-direction: column; text-align: center; padding-top: 140px; }
+            .calmopsai-hero { flex-direction: column; text-align: center; padding: 100px 0 40px; min-height: auto; }
             .calmopsai-hero-inner { flex-direction: column; }
             .calmopsai-hero-text { max-width: 100%; }
             .calmopsai-hero p { margin-left: auto; margin-right: auto; }
             .calmopsai-hero h1 { font-size: 38px; }
-            .calmopsai-hero-visual { height: 400px; width: 100%; margin-top: 20px; }
+            .calmopsai-hero-visual { height: 320px; width: 100%; margin-top: 16px; }
+            .calmopsai-section { padding: 36px 0; }
+            .calmopsai-title { margin-bottom: 24px; font-size: 32px; }
+            .platform-ticker-wrap { margin: 16px 0; padding: 12px 0; }
             .calmopsai-reactor { transform: translate(-50%, -50%) scale(0.45); }
             .problem-grid { grid-template-columns: 1fr; }
-            #calmopsai-root .footer-grid { flex-direction: column !important; text-align: center !important; align-items: center !important; }
+            #calmopsai-root .footer-grid { flex-direction: column !important; text-align: center !important; align-items: center !important; justify-content: center !important; }
             #calmopsai-root .footer-grid > div:first-child { flex-direction: column !important; align-items: center !important; }
-            #calmopsai-root .footer-contacts { justify-content: center !important; }
+            #calmopsai-root .footer-contacts { 
+                justify-content: center !important; align-items: center !important; 
+                width: 100% !important; max-width: 100% !important;
+                flex-wrap: nowrap !important; gap: 12px !important;
+                padding: 0 16px !important; box-sizing: border-box !important;
+            }
+            #calmopsai-root .footer-contacts .contact-card { width: 44px !important; height: 44px !important; min-width: 44px !important; min-height: 44px !important; }
+            #calmopsai-root .footer-contacts .contact-card i { font-size: 18px !important; }
+            .tg-fab { bottom: 16px !important; right: 16px !important; width: 52px; height: 52px; font-size: 22px; }
         }
         @media (max-width: 900px) {
             #calmopsai-root nav { flex-wrap: nowrap; padding: 10px 16px; width: min(calc(100vw - 24px), 1200px) !important; justify-content: space-between; }
@@ -530,7 +541,7 @@
                     <img id="promo-banner-img" src="https://ml72wzda87ys.i.optimole.com/w:1260/h:703/q:mauto/f:best/https://www.neuroalex.site/wp-content/uploads/2026/02/file-42.png" alt="NeuroAlex — рекомендованный ресурс" style="width:100%;height:auto;border-radius:22px;border:1px solid rgba(255,255,255,0.18);">
                 </a>
             </div>
-            <div style="margin-top:24px;text-align:center;">
+            <div style="margin-top:16px;text-align:center;">
                 <a href="https://calmopsai.com/" target="_blank" class="btn-nav" style="text-decoration:none;padding:10px 24px;border-radius:999px;" data-i18n="banner.link">CalmOpsAi — системная автоматизация бизнеса</a>
             </div>
         </div>
@@ -660,12 +671,11 @@
         <div class="footer-copyright calmopsai-container" data-i18n="footer.copyright">© 2026 CalmOpsAi. Все права защищены.</div>
     </footer>
 
-    <!-- FAB -->
-    <a href="https://t.me/AlexD_GOLD" target="_blank" class="tg-fab">
-        <i class="fab fa-telegram-plane"></i>
-    </a>
-
 </div>
+<!-- FAB — вне root для корректного position:fixed на мобильных -->
+<a href="https://t.me/AlexD_GOLD" target="_blank" class="tg-fab" aria-label="Telegram">
+    <i class="fab fa-telegram-plane"></i>
+</a>
 
 <script>
     const lettersRU = "ЯЖЦЧШЩФЫБЮЭАВГДЕЗИЙКЛМНОПРСТУХЪЬабвгдежзийклмнопрстуфхцчшщъыьэюя0123456789!@#$%^&*<>{}[]|/\\~`";
