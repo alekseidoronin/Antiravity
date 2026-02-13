@@ -10,6 +10,7 @@ Thumbs.db
 
 # Dependencies
 node_modules/
+nodejs/
 
 # Env
 .env

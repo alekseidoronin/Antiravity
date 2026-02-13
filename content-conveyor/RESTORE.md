@@ -31,7 +31,7 @@ WordPress, VK, Telegra.ph, Instagram, Facebook, Pinterest, LinkedIn, Дзен, T
 
 ### Технологии
 - Font Awesome 6.5.1, Inter (Google Fonts)
-- i18n RU/EN, localStorage
+- i18n RU/EN в одной странице, переключатель в шапке, localStorage
 - Fade-up при скролле
 - FAB Telegram
 
